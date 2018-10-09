@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -24,5 +25,30 @@ public class Role {
 
 	public Role(String name) {
 		this.name = name;
+		this.users = new ArrayList<User>();
+	}
+	
+	public boolean addUser (User user) {
+		return this.users.add(user);
+	}
+	
+	public boolean removeUser (User user) {
+		return this.users.remove(user);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 }

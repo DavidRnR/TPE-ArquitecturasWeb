@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,5 +33,46 @@ public class Article {
 		this.name = name;
 		this.category = category;
 		this.created = created;
+		this.keyWords = new ArrayList<KeyWord>();
+	}
+	
+	public boolean addKeyWord (KeyWord keyWord) {
+		return this.keyWords.add(keyWord);
+	}
+	
+	public boolean removeKeyWord (KeyWord keyWord) {
+		return this.keyWords.remove(keyWord);
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public List<KeyWord> getKeyWords() {
+		return keyWords;
+	}
+
+	public void setKeyWords(List<KeyWord> keyWords) {
+		this.keyWords = keyWords;
 	}
 }
