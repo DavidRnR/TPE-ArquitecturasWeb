@@ -10,10 +10,20 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQuery;
+
+@NamedQuery(name = User.FIND_ALL, query="SELECT u FROM User u")
+@NamedQuery(name = User.FIND_BY_ID, query="SELECT u FROM User u WHERE u.id = ?1")
+@NamedQuery(name = User.FIND_BY_EMAIL, query="SELECT u FROM User u WHERE u.email = ?1")
+
 @Entity
 @Table(name="User")
 public class User {
 
+	public static final String FIND_ALL = "User.findAll";
+	public static final String FIND_BY_ID = "User.findById";
+	public static final String FIND_BY_EMAIL = "User.findByEmail";
+	
 	@Id
 	@GeneratedValue
 	private int id;

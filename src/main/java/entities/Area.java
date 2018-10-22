@@ -9,10 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQuery;
+
+@NamedQuery(name = Area.FIND_ALL, query="SELECT a FROM Area a")
+@NamedQuery(name = Area.FIND_BY_ID, query="SELECT a FROM Area a WHERE a.id = ?1")
+
 @Entity
 @Table(name="Area")
 public class Area {
 
+	public static final String FIND_ALL = "Area.findAll";
+	public static final String FIND_BY_ID = "Area.findById";
+	
 	@Id
 	@GeneratedValue
 	private int id;

@@ -3,16 +3,26 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.NamedQuery;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+@NamedQuery(name = Category.FIND_ALL, query="SELECT c FROM Category c")
+@NamedQuery(name = Category.FIND_BY_ID, query="SELECT c FROM Category c WHERE c.id = ?1")
+@NamedQuery(name = Category.FIND_BY_NAME, query="SELECT c FROM Category c WHERE c.name = ?1")
+
 @Entity
 @Table(name="Category")
 public class Category {
-
+	
+	public static final String FIND_ALL = "Category.findAll";
+	public static final String FIND_BY_ID = "Category.findById";
+	public static final String FIND_BY_NAME = "Category.findByName";
+	
 	@Id
 	@GeneratedValue
 	private int id;
