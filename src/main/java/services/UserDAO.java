@@ -33,7 +33,15 @@ public class UserDAO implements DAO<User,Integer>{
 
 	@Override
 	public User update(Integer id, User user, EntityManager entityManager) {
-		// TODO Auto-generated method stub
+		User us = entityManager.find(User.class, id);
+		
+		if(us != null) {
+			entityManager.getTransaction().begin();
+			entityManager.persist(user);
+			entityManager.getTransaction().commit();
+			return user;
+		}
+		
 		return null;
 	}
 

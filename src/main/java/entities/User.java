@@ -3,11 +3,12 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NamedQuery;
@@ -39,6 +40,7 @@ public class User {
 	@ManyToMany
 	private List<Article> articles;
 	@ManyToMany
+	@JoinTable(name = "User_Rev_Article")
 	private List<Article> articlesRev;
 
 	public User() {}
@@ -71,13 +73,11 @@ public class User {
 	}
 
 	public boolean addArticleRev (Article article) {
-		boolean answer = false;
 		if(canReviewArticle(article)) {
 			this.articlesRev.add(article);
-			article.addReviewer(this);
-			answer = true;
+			return true;
 		}
-		return answer;
+		return false;
 	}
 
 	public boolean removeArticleRev (Article article) {
@@ -91,7 +91,11 @@ public class User {
 	public boolean removeKeyWord (KeyWord keyWord) {
 		return this.keyWords.remove(keyWord);
 	}
-
+	
+	public int getId() {
+		return this.id;
+	}
+	
 	public String getFirst_name() {
 		return first_name;
 	}
@@ -147,25 +151,23 @@ public class User {
 	//***************************************************************
 	private boolean canReviewArticle (Article article) {
 
-		boolean answer = false;
-
 		if(article.containsKeyWords(keyWords) && isEvaluador()) {
-			answer = true;
+			return true;
 		}
 
 
-		return answer;
+		return false;
 	}
 
 	private boolean isEvaluador () {
-		boolean answer = false;
+
 		for (Role role : roles) {
 
 			if(role.isEvaluador()) {
-				answer = true;
+				return true;
 			}
 
 		}
-		return answer;
+		return false;
 	}
 }

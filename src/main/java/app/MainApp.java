@@ -96,8 +96,6 @@ public class MainApp {
 		Article article1 = new Article("Mas allá de la gran Network", category1, dateArt1);
 		article1.addKeyWord(keyword4);
 		article1.addKeyWord(keyword3);
-//		article1.addAuthor(user2);
-//		user2.addArticle(article1);
 
 		cal.set(Calendar.YEAR, 2018);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -106,8 +104,6 @@ public class MainApp {
 		Article article2 = new Article("Micro Servicios y algo mas", category3, dateArt2);
 		article2.addKeyWord(keyword7);
 		article2.addKeyWord(keyword8);
-//		article2.addAuthor(user3);
-//		user3.addArticle(article2);
 	
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
@@ -115,8 +111,6 @@ public class MainApp {
 		Date dateArt3 = cal.getTime();
 		Article article3 = new Article("Aprendamos Internet de las Cosas", category2, dateArt3);
 		article3.addKeyWord(keyword2);
-//		article3.addAuthor(user9);
-//		user9.addArticle(article3);
 	
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -124,8 +118,6 @@ public class MainApp {
 		Date dateArt4 = cal.getTime();
 		Article article4 = new Article("IOT para principantes", category2, dateArt4);
 		article4.addKeyWord(keyword2);
-//		article3.addAuthor(user6);
-//		user6.addArticle(article3);
 		
 		cal.set(Calendar.YEAR, 2018);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
@@ -133,8 +125,6 @@ public class MainApp {
 		Date dateArt5 = cal.getTime();
 		Article article5 = new Article("Machine Learning básico", category2, dateArt5);
 		article5.addKeyWord(keyword1);
-//		article5.addAuthor(user4);
-//		user4.addArticle(article5);
 		
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -142,8 +132,6 @@ public class MainApp {
 		Date dateArt6 = cal.getTime();
 		Article article6 = new Article("Python y nada más", category3, dateArt6);
 		article6.addKeyWord(keyword6);
-//		article6.addAuthor(user2);
-//		user2.addArticle(article6);
 		
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.FEBRUARY);
@@ -151,8 +139,6 @@ public class MainApp {
 		Date dateArt7 = cal.getTime();
 		Article article7 = new Article("Javascript para principiantes", category3, dateArt7);
 		article7.addKeyWord(keyword5);
-//		article7.addAuthor(user1);
-//		user1.addArticle(article7);
 		
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.DECEMBER);
@@ -161,8 +147,6 @@ public class MainApp {
 		Article article8 = new Article("Seguridad Informática", category1, dateArt8);
 		article8.addKeyWord(keyword3);
 		article8.addKeyWord(keyword4);
-//		article8.addAuthor(user10);
-//		user10.addArticle(article8);
 		
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -170,8 +154,6 @@ public class MainApp {
 		Date dateArt9 = cal.getTime();
 		Article article9 = new Article("Como armar una Red", category1, dateArt9);
 		article9.addKeyWord(keyword4);
-//		article9.addAuthor(user9);
-//		user9.addArticle(article9);
 				
 		cal.set(Calendar.YEAR, 2018);
 		cal.set(Calendar.MONTH, Calendar.APRIL);
@@ -180,8 +162,6 @@ public class MainApp {
 		Article article10 = new Article("Por qué Micro Servicios?", category3, dateArt10);
 		article10.addKeyWord(keyword7);
 		article10.addKeyWord(keyword8);
-//		article10.addAuthor(user8);
-//		user8.addArticle(article10);
 
 		RoleDAO.getInstance().persist(roleAutor, em); 
 		RoleDAO.getInstance().persist(roleEvaluador, em);
@@ -220,6 +200,27 @@ public class MainApp {
 		ArticleDAO.getInstance().persist(article9, em);
 		ArticleDAO.getInstance().persist(article10, em);
 		
+		user1.addArticle(article7);
+		user2.addArticle(article1);
+		user2.addArticle(article6);
+		user3.addArticle(article2);
+		user4.addArticle(article5);
+		user6.addArticle(article3);
+		user8.addArticle(article10);
+		user8.addArticle(article10);
+		user9.addArticle(article3);
+		user9.addArticle(article9);
+		user10.addArticle(article8);
+
+		UserDAO.getInstance().update(user1.getId(), user1, em);
+		UserDAO.getInstance().update(user2.getId(), user2, em);
+		UserDAO.getInstance().update(user3.getId(), user3, em);
+		UserDAO.getInstance().update(user4.getId(), user4, em);
+		UserDAO.getInstance().update(user6.getId(), user6, em);
+		UserDAO.getInstance().update(user8.getId(), user8, em);
+		UserDAO.getInstance().update(user9.getId(), user9, em);
+		UserDAO.getInstance().update(user10.getId(), user10, em);
+	
 		em.close();
 		emf.close();
 	}

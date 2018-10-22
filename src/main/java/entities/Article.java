@@ -35,12 +35,7 @@ public class Article {
 	
 	@ManyToMany
 	private List<KeyWord> keyWords;
-	
-	@ManyToMany
-	private List<User> authors;
-	@ManyToMany
-	private List<User> reviewers;
-	
+		
 	public Article() {}
 
 	public Article(String name, Category category, Date created) {
@@ -48,24 +43,6 @@ public class Article {
 		this.category = category;
 		this.created = created;
 		this.keyWords = new ArrayList<KeyWord>();
-		this.authors = new ArrayList<User>();
-		this.reviewers = new ArrayList<User>();
-	}
-	
-	public boolean addAuthor (User user) {
-		return this.authors.add(user);
-	}
-	
-	public boolean removeAuthor (User user) {
-		return this.authors.remove(user);
-	}
-	
-	public boolean addReviewer (User user) {
-		return this.reviewers.add(user);
-	}
-	
-	public boolean removeReviwer (User user) {
-		return this.reviewers.remove(user);
 	}
 	
 	public boolean addKeyWord (KeyWord keyWord) {
@@ -109,10 +86,9 @@ public class Article {
 	}
 	
 	public boolean containsKeyWords(List<KeyWord> kw) {
-		boolean answer = false;
 		if(category.containsKeyWords(keyWords, kw)) {
-			answer = true;
+			return true;
 		}
-		return answer;
+		return false;
 	}
 }
