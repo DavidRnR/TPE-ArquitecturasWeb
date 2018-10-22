@@ -23,16 +23,14 @@ public class User {
 	public static final String FIND_ALL = "User.findAll";
 	public static final String FIND_BY_ID = "User.findById";
 	public static final String FIND_BY_EMAIL = "User.findByEmail";
-	
+
 	@Id
 	@GeneratedValue
 	private int id;
 	private String first_name;
 	private String last_name;
 	private String email;
-
-	@ManyToOne
-	private Area area;
+	private boolean expert;
 
 	@ManyToMany
 	private List<Role> roles;
@@ -40,6 +38,8 @@ public class User {
 	private List<KeyWord> keyWords;
 	@ManyToMany
 	private List<Article> articles;
+	@ManyToMany
+	private List<Article> articlesRev;
 
 	public User() {}
 
@@ -47,6 +47,7 @@ public class User {
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.email = email;
+		this.expert = false;
 		this.roles = new ArrayList<Role>();
 		this.articles = new ArrayList<Article>();
 		this.keyWords = new ArrayList<KeyWord>();
@@ -66,6 +67,20 @@ public class User {
 
 	public boolean removeArticle (Article article) {
 		return this.articles.remove(article);
+	}
+
+	public boolean addArticleRev (Article article) {
+		boolean answer = false;
+		if(canReviewArticle(article)) {
+			this.articlesRev.add(article);
+			article.addReviewer(this);
+			answer = true;
+		}
+		return answer;
+	}
+
+	public boolean removeArticleRev (Article article) {
+		return this.articlesRev.remove(article);
 	}
 
 	public boolean addKeyWord (KeyWord keyWord) {
@@ -100,12 +115,12 @@ public class User {
 		this.email = email;
 	}
 
-	public Area getArea() {
-		return area;
+	public boolean isExpert() {
+		return this.expert;	
 	}
 
-	public void setArea(Area area) {
-		this.area = area;
+	public void setExpert(boolean exp) {
+		this.expert = exp;
 	}
 
 	public List<Role> getRoles() {
@@ -128,8 +143,28 @@ public class User {
 		return articles;
 	}
 
-	public void setArticles(List<Article> articles) {
-		this.articles = articles;
+	//***************************************************************
+	private boolean canReviewArticle (Article article) {
+
+		boolean answer = false;
+
+		if(article.containsKeyWords(keyWords) && isEvaluador()) {
+			answer = true;
+		}
+
+
+		return answer;
 	}
 
+	private boolean isEvaluador () {
+		boolean answer = false;
+		for (Role role : roles) {
+
+			if(role.isEvaluador()) {
+				answer = true;
+			}
+
+		}
+		return answer;
+	}
 }

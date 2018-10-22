@@ -59,4 +59,8 @@ public class Role {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+	
+	public boolean isEvaluador () {
+		return this.getName() == "Evaluador";
+	}
 }

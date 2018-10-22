@@ -4,12 +4,16 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import entities.Article;
+import entities.Articulo;
 import entities.Category;
 import entities.KeyWord;
+import entities.Poster;
+import entities.Resumen;
 import entities.Role;
 import entities.User;
 import services.ArticleDAO;
 import services.CategoryDAO;
+import services.KeyWordDAO;
 import services.RoleDAO;
 import services.UserDAO;
 
@@ -30,16 +34,168 @@ public class MainApp {
 		Role roleEvaluador = new Role("evaluador");
 		RoleDAO.getInstance().persist(roleEvaluador, em);
 		
-		User user1 = new User("David", "MartÌn", "carlosdavidmartin@gmail.com");
-		User user2 = new User("Emilio", "MartÌn", "emiliomartin@gmail.com");
-		User user3 = new User("Andrea", "PÈrez", "andreaperez@hotmail.com");
-		User user4 = new User("Jorge", "GÛmez", "gomezjorge@yahoo.com");
+		
+		KeyWord keyword1 = new KeyWord("Machine Learning");
+		KeyWord keyword2 = new KeyWord("IOT");
+		KeyWord keyword3 = new KeyWord("Seguridad");
+		KeyWord keyword4 = new KeyWord("Red");
+		KeyWord keyword5 = new KeyWord("Javascript");
+		KeyWord keyword6 = new KeyWord("Python");
+		KeyWord keyword7 = new KeyWord("Micro Servicios");
+		KeyWord keyword8 = new KeyWord("Arquitectura");
+		KeyWordDAO.getInstance().persist(keyword1, em);
+		KeyWordDAO.getInstance().persist(keyword2, em);
+		KeyWordDAO.getInstance().persist(keyword3, em);
+		KeyWordDAO.getInstance().persist(keyword4, em);
+		KeyWordDAO.getInstance().persist(keyword5, em);
+		KeyWordDAO.getInstance().persist(keyword6, em);
+		KeyWordDAO.getInstance().persist(keyword7, em);
+		KeyWordDAO.getInstance().persist(keyword8, em);
+		
+		User user1 = new User("David", "Martin", "carlosdavidmartin@gmail.com");
+		user1.addRole(roleAutor);
+		user1.addRole(roleEvaluador);
+		User user2 = new User("Emilio", "Martin", "emiliomartin@gmail.com");
+		user2.addRole(roleAutor);
+		User user3 = new User("Andrea", "Perez", "andreaperez@hotmail.com");
+		user3.addRole(roleAutor);
+		User user4 = new User("Jorge", "Gomez", "gomezjorge@yahoo.com");
+		user4.addRole(roleAutor);
+		user4.addRole(roleEvaluador);
 		User user5 = new User("Carolina", "Ferrari", "ferraricaro@hotmail.com");
+		user5.addRole(roleEvaluador);
 		User user6 = new User("Camila", "Martinez", "camilamart@gmail.com");
+		user6.addRole(roleAutor);
 		User user7 = new User("Pedro", "Monzon", "monpedro@yahoo.com");
-		User user8 = new User("Esteban", "GarcÌa", "estgarcia@gmail.com");
+		user7.addRole(roleAutor);
+		User user8 = new User("Esteban", "Garcia", "estgarcia@gmail.com");
+		user8.addRole(roleAutor);
 		User user9 = new User("Paola", "Mendez", "pao_mendez@gmail.com");
+		user9.addRole(roleAutor);
 		User user10 = new User("Victoria", "Pozo", "pozovicky@gmail.com");
+		user10.addRole(roleAutor);
+			
+		Category category1 = new Articulo("Art√≠culo");
+		Category category2 = new Resumen("Resumen");
+		Category category3 = new Poster("Poster");
+		CategoryDAO.getInstance().persist(category1, em);
+		CategoryDAO.getInstance().persist(category2, em);
+		CategoryDAO.getInstance().persist(category3, em);
+		
+		
+		Calendar cal = Calendar.getInstance();
+		
+		
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		Date dateArt1 = cal.getTime();
+		Article article1 = new Article("Mas all√° de la gran Network", category1, dateArt1);
+		article1.addKeyWord(keyword4);
+		article1.addKeyWord(keyword3);
+		article1.addAuthor(user2);
+		ArticleDAO.getInstance().persist(article1, em);
+		
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 3);
+		Date dateArt2 = cal.getTime();
+		Article article2 = new Article("Micro Servicios y algo mas", category3, dateArt2);
+		article2.addKeyWord(keyword7);
+		article2.addKeyWord(keyword8);
+		article2.addAuthor(user3);
+		ArticleDAO.getInstance().persist(article2, em);
+		
+		cal.set(Calendar.YEAR, 2017);
+		cal.set(Calendar.MONTH, Calendar.MARCH);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		Date dateArt3 = cal.getTime();
+		Article article3 = new Article("Aprendamos Internet de las Cosas", category2, dateArt3);
+		article3.addKeyWord(keyword2);
+		article3.addAuthor(user9);
+		ArticleDAO.getInstance().persist(article3, em);
+		
+		cal.set(Calendar.YEAR, 2016);
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 3);
+		Date dateArt4 = cal.getTime();
+		Article article4 = new Article("IOT para principantes", category2, dateArt4);
+		article4.addKeyWord(keyword2);
+		article3.addAuthor(user6);
+		ArticleDAO.getInstance().persist(article4, em);
+		
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.MARCH);
+		cal.set(Calendar.DAY_OF_MONTH, 6);
+		Date dateArt5 = cal.getTime();
+		Article article5 = new Article("Machine Learning b√°sico", category2, dateArt5);
+		article5.addKeyWord(keyword1);
+		article5.addAuthor(user4);
+		ArticleDAO.getInstance().persist(article5, em);
+		
+		cal.set(Calendar.YEAR, 2016);
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 18);
+		Date dateArt6 = cal.getTime();
+		Article article6 = new Article("Python y nada m√°s", category3, dateArt6);
+		article6.addKeyWord(keyword6);
+		article6.addAuthor(user2);
+		ArticleDAO.getInstance().persist(article6, em);
+		
+		cal.set(Calendar.YEAR, 2017);
+		cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 22);
+		Date dateArt7 = cal.getTime();
+		Article article7 = new Article("Javascript para principiantes", category3, dateArt7);
+		article7.addKeyWord(keyword5);
+		article7.addAuthor(user1);
+		ArticleDAO.getInstance().persist(article7, em);
+		
+		cal.set(Calendar.YEAR, 2016);
+		cal.set(Calendar.MONTH, Calendar.DECEMBER);
+		cal.set(Calendar.DAY_OF_MONTH, 2);
+		Date dateArt8 = cal.getTime();
+		Article article8 = new Article("Seguridad Inform√°tica", category1, dateArt8);
+		article8.addKeyWord(keyword3);
+		article8.addKeyWord(keyword4);
+		article8.addAuthor(user10);
+		ArticleDAO.getInstance().persist(article8, em);
+		
+		cal.set(Calendar.YEAR, 2017);
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 29);
+		Date dateArt9 = cal.getTime();
+		Article article9 = new Article("Como armar una Red", category1, dateArt9);
+		article9.addKeyWord(keyword4);
+		article9.addAuthor(user9);
+		ArticleDAO.getInstance().persist(article9, em);
+		
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.APRIL);
+		cal.set(Calendar.DAY_OF_MONTH, 14);
+		Date dateArt10 = cal.getTime();
+		Article article10 = new Article("Por qu√© Micro Servicios?", category3, dateArt10);
+		article10.addKeyWord(keyword7);
+		article10.addKeyWord(keyword8);
+		article10.addAuthor(user8);
+		ArticleDAO.getInstance().persist(article10, em);
+		
+		// Evaluadores
+		user1.addKeyWord(keyword1);
+		user1.addKeyWord(keyword2);
+		user1.addKeyWord(keyword3);
+		user1.addKeyWord(keyword4);
+		user1.addKeyWord(keyword5);
+		user1.addKeyWord(keyword6);
+		user1.addKeyWord(keyword7);
+		user1.addKeyWord(keyword8);
+		user1.setExpert(true);
+		
+		user4.addKeyWord(keyword5);
+		
+		user5.addKeyWord(keyword5);
+		user5.addKeyWord(keyword6);
+			
 		UserDAO.getInstance().persist(user1, em);
 		UserDAO.getInstance().persist(user2, em);
 		UserDAO.getInstance().persist(user3, em);
@@ -50,96 +206,6 @@ public class MainApp {
 		UserDAO.getInstance().persist(user8, em);
 		UserDAO.getInstance().persist(user9, em);
 		UserDAO.getInstance().persist(user10, em);
-		
-		Category category1 = new Category("Redes");
-		Category category2 = new Category("IOT");
-		Category category3 = new Category("Micro Servicios");
-		Category category4 = new Category("AI");
-		CategoryDAO.getInstance().persist(category1, em);
-		CategoryDAO.getInstance().persist(category2, em);
-		CategoryDAO.getInstance().persist(category3, em);
-		CategoryDAO.getInstance().persist(category4, em);
-		
-		
-		Calendar cal = Calendar.getInstance();
-		
-		
-		cal.set(Calendar.YEAR, 2018);
-		cal.set(Calendar.MONTH, Calendar.JANUARY);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		Date dateArt1 = cal.getTime();
-		Article article1 = new Article("Mas all· de la gran Network", category1, dateArt1);
-		ArticleDAO.getInstance().persist(article1, em);
-		
-		cal.set(Calendar.YEAR, 2018);
-		cal.set(Calendar.MONTH, Calendar.JANUARY);
-		cal.set(Calendar.DAY_OF_MONTH, 3);
-		Date dateArt2 = cal.getTime();
-		Article article2 = new Article("Micro Servicios y algo mas", category3, dateArt2);
-		ArticleDAO.getInstance().persist(article2, em);
-		
-		cal.set(Calendar.YEAR, 2017);
-		cal.set(Calendar.MONTH, Calendar.MARCH);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		Date dateArt3 = cal.getTime();
-		Article article3 = new Article("Aprendamos Internet de las Cosas", category2, dateArt3);
-		ArticleDAO.getInstance().persist(article3, em);
-		
-		cal.set(Calendar.YEAR, 2016);
-		cal.set(Calendar.MONTH, Calendar.JANUARY);
-		cal.set(Calendar.DAY_OF_MONTH, 3);
-		Date dateArt4 = cal.getTime();
-		Article article4 = new Article("IOT para principantes", category2, dateArt4);
-		ArticleDAO.getInstance().persist(article4, em);
-		
-		cal.set(Calendar.YEAR, 2018);
-		cal.set(Calendar.MONTH, Calendar.MARCH);
-		cal.set(Calendar.DAY_OF_MONTH, 6);
-		Date dateArt5 = cal.getTime();
-		Article article5 = new Article("Machine Learning b·sico", category4, dateArt5);
-		ArticleDAO.getInstance().persist(article5, em);
-		
-		cal.set(Calendar.YEAR, 2016);
-		cal.set(Calendar.MONTH, Calendar.JANUARY);
-		cal.set(Calendar.DAY_OF_MONTH, 18);
-		Date dateArt6 = cal.getTime();
-		Article article6 = new Article("Machine Learning avanzado", category4, dateArt6);
-		ArticleDAO.getInstance().persist(article6, em);
-		
-		cal.set(Calendar.YEAR, 2017);
-		cal.set(Calendar.MONTH, Calendar.FEBRUARY);
-		cal.set(Calendar.DAY_OF_MONTH, 22);
-		Date dateArt7 = cal.getTime();
-		Article article7 = new Article("Machine Learning avanzado 2", category4, dateArt7);
-		ArticleDAO.getInstance().persist(article7, em);
-		
-		cal.set(Calendar.YEAR, 2016);
-		cal.set(Calendar.MONTH, Calendar.DECEMBER);
-		cal.set(Calendar.DAY_OF_MONTH, 2);
-		Date dateArt8 = cal.getTime();
-		Article article8 = new Article("Seguridad Inform·tica", category1, dateArt8);
-		ArticleDAO.getInstance().persist(article8, em);
-		
-		cal.set(Calendar.YEAR, 2017);
-		cal.set(Calendar.MONTH, Calendar.JANUARY);
-		cal.set(Calendar.DAY_OF_MONTH, 29);
-		Date dateArt9 = cal.getTime();
-		Article article9 = new Article("Como armar una Red", category1, dateArt9);
-		ArticleDAO.getInstance().persist(article9, em);
-		
-		cal.set(Calendar.YEAR, 2018);
-		cal.set(Calendar.MONTH, Calendar.APRIL);
-		cal.set(Calendar.DAY_OF_MONTH, 14);
-		Date dateArt10 = cal.getTime();
-		Article article10 = new Article("Por quÈ Micro Servicios?", category3, dateArt1);
-		ArticleDAO.getInstance().persist(article10, em);
-		
-//		KeyWord keyword1 = new KeyWord("");
-//		KeyWord keyword2 = new KeyWord();
-//		KeyWord keyword3 = new KeyWord();
-//		KeyWord keyword4 = new KeyWord();
-//		KeyWord keyword5 = new KeyWord();
-//		KeyWord keyword6 = new KeyWord();
 		
 		em.close();
 		emf.close();

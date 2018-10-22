@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Category")
-public class Category {
+public abstract class Category {
 	
 	public static final String FIND_ALL = "Category.findAll";
 	public static final String FIND_BY_ID = "Category.findById";
@@ -61,4 +61,6 @@ public class Category {
 	public void setArticles(List<Article> articles) {
 		this.articles = articles;
 	}
+	
+	public abstract boolean containsKeyWords (List<KeyWord> artKw, List<KeyWord> userKw);
 }
