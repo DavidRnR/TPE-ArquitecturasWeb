@@ -5,6 +5,7 @@ import javax.persistence.Persistence;
 
 import entities.Article;
 import entities.Category;
+import entities.KeyWord;
 import entities.Role;
 import entities.User;
 import services.ArticleDAO;
@@ -133,7 +134,13 @@ public class MainApp {
 		Article article10 = new Article("Por qué Micro Servicios?", category3, dateArt1);
 		ArticleDAO.getInstance().persist(article10, em);
 		
-;
+//		KeyWord keyword1 = new KeyWord("");
+//		KeyWord keyword2 = new KeyWord();
+//		KeyWord keyword3 = new KeyWord();
+//		KeyWord keyword4 = new KeyWord();
+//		KeyWord keyword5 = new KeyWord();
+//		KeyWord keyword6 = new KeyWord();
+		
 		em.close();
 		emf.close();
 	}
