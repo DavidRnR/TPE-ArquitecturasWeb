@@ -2,7 +2,11 @@ package entities;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Poster extends Category{
+	public Poster() {}
 	public Poster (String name) {
 		super(name);
 	}

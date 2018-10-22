@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import entities.Article;
 import entities.User;
 
 public class UserDAO implements DAO<User,Integer>{
@@ -55,6 +56,20 @@ public class UserDAO implements DAO<User,Integer>{
 		if(user != null) {
 			entityManager.getTransaction().begin();
 			entityManager.remove(user);
+			entityManager.getTransaction().commit();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean addArticle (Integer id, Article article, EntityManager entityManager) {
+		User user = this.findById(id, entityManager);
+		if(user != null) {
+			entityManager.getTransaction().begin();
+			user.addArticle(article);
+			entityManager.persist(user);
 			entityManager.getTransaction().commit();
 			return true;
 		}

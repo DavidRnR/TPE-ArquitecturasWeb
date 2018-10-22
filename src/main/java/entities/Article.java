@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -47,6 +48,8 @@ public class Article {
 		this.category = category;
 		this.created = created;
 		this.keyWords = new ArrayList<KeyWord>();
+		this.authors = new ArrayList<User>();
+		this.reviewers = new ArrayList<User>();
 	}
 	
 	public boolean addAuthor (User user) {

@@ -51,6 +51,7 @@ public class User {
 		this.roles = new ArrayList<Role>();
 		this.articles = new ArrayList<Article>();
 		this.keyWords = new ArrayList<KeyWord>();
+		this.articlesRev = new ArrayList<Article>();
 	}
 
 	public boolean addRole (Role role) {
