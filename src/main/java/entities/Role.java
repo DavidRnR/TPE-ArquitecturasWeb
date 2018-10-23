@@ -26,23 +26,12 @@ public class Role {
 	private int id;
 	private String name;
 	
-	@ManyToMany
-	private List<User> users;
-	
 	public Role() {}
 
 	public Role(String name) {
 		this.name = name;
-		this.users = new ArrayList<User>();
 	}
 	
-	public boolean addUser (User user) {
-		return this.users.add(user);
-	}
-	
-	public boolean removeUser (User user) {
-		return this.users.remove(user);
-	}
 
 	public String getName() {
 		return name;
@@ -52,15 +41,12 @@ public class Role {
 		this.name = name;
 	}
 
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public boolean isEvaluador () {
+		return this.getName() == "evaluador";
 	}
 	
-	public boolean isEvaluador () {
-		return this.getName() == "Evaluador";
+	@Override
+	public String toString () {
+		return this.name;
 	}
 }

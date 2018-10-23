@@ -62,5 +62,5 @@ public abstract class Category {
 		this.articles = articles;
 	}
 	
-	public abstract boolean containsKeyWords (List<KeyWord> artKw, List<KeyWord> userKw);
+	public abstract boolean containsKeyWordsNeeded (List<KeyWord> artKw, List<KeyWord> userKw);
 }

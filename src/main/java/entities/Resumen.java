@@ -12,9 +12,9 @@ public class Resumen extends Category{
 	}
 
 	@Override
-	public boolean containsKeyWords(List<KeyWord> artKw, List<KeyWord> userKw) {
+	public boolean containsKeyWordsNeeded(List<KeyWord> artKw, List<KeyWord> userKw) {
 		for (KeyWord keyWord : userKw) {
-			if(!artKw.contains(keyWord.getWord())) {
+			if(!artKw.contains(keyWord)) {
 				return false;
 			}
 		}

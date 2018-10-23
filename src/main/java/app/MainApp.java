@@ -12,6 +12,7 @@ import entities.Resumen;
 import entities.Role;
 import entities.User;
 import services.ArticleDAO;
+import services.CacicService;
 import services.CategoryDAO;
 import services.KeyWordDAO;
 import services.RoleDAO;
@@ -200,13 +201,13 @@ public class MainApp {
 		ArticleDAO.getInstance().persist(article9, em);
 		ArticleDAO.getInstance().persist(article10, em);
 		
+		// Autores
 		user1.addArticle(article7);
 		user2.addArticle(article1);
 		user2.addArticle(article6);
 		user3.addArticle(article2);
 		user4.addArticle(article5);
 		user6.addArticle(article3);
-		user8.addArticle(article10);
 		user8.addArticle(article10);
 		user9.addArticle(article3);
 		user9.addArticle(article9);
@@ -220,7 +221,12 @@ public class MainApp {
 		UserDAO.getInstance().update(user8.getId(), user8, em);
 		UserDAO.getInstance().update(user9.getId(), user9, em);
 		UserDAO.getInstance().update(user10.getId(), user10, em);
-	
+		
+//		System.out.println(user1.addArticleRev(article7));
+//		System.out.println("Roles:" + user6.getRoles().toString());
+//		System.out.println("User 6 puede?" + user6.addArticleRev(article9));
+//		System.out.println(user5.addArticleRev(article7));
+		System.out.println(CacicService.findEvaluadores(article10, em));
 		em.close();
 		emf.close();
 	}

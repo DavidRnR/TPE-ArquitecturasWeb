@@ -85,8 +85,8 @@ public class Article {
 		this.keyWords = keyWords;
 	}
 	
-	public boolean containsKeyWords(List<KeyWord> kw) {
-		if(category.containsKeyWords(keyWords, kw)) {
+	public boolean containsKeyWordsNeeded(List<KeyWord> kw) {
+		if(category.containsKeyWordsNeeded(keyWords, kw)) {
 			return true;
 		}
 		return false;

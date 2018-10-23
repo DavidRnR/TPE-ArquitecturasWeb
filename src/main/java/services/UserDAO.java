@@ -85,4 +85,10 @@ public class UserDAO implements DAO<User,Integer>{
 			return false;
 		}
 	}
+	
+	public List<User> getEvaludoares (EntityManager entityManager) {
+		Query q = entityManager.createNamedQuery(User.FIND_EVALUADORES);
+		List<User> users = q.getResultList();
+		return users;
+	}
 }

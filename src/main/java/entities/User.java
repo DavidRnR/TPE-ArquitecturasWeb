@@ -16,6 +16,7 @@ import org.hibernate.annotations.NamedQuery;
 @NamedQuery(name = User.FIND_ALL, query="SELECT u FROM User u")
 @NamedQuery(name = User.FIND_BY_ID, query="SELECT u FROM User u WHERE u.id = ?1")
 @NamedQuery(name = User.FIND_BY_EMAIL, query="SELECT u FROM User u WHERE u.email = ?1")
+@NamedQuery(name = User.FIND_EVALUADORES, query="SELECT u FROM User u JOIN u.roles r WHERE r.name = 'evaluador'") 
 
 @Entity
 @Table(name="User")
@@ -24,7 +25,8 @@ public class User {
 	public static final String FIND_ALL = "User.findAll";
 	public static final String FIND_BY_ID = "User.findById";
 	public static final String FIND_BY_EMAIL = "User.findByEmail";
-
+	public static final String FIND_EVALUADORES = "User.findEvaluadores";
+	
 	@Id
 	@GeneratedValue
 	private int id;
@@ -85,7 +87,10 @@ public class User {
 	}
 
 	public boolean addKeyWord (KeyWord keyWord) {
-		return this.keyWords.add(keyWord);
+		if(isEvaluador()) {
+			return this.keyWords.add(keyWord);
+		}
+		return false;
 	}
 
 	public boolean removeKeyWord (KeyWord keyWord) {
@@ -147,18 +152,23 @@ public class User {
 	public List<Article> getArticles() {
 		return articles;
 	}
+	
+	@Override
+	public String toString () {
+		return this.getFirst_name() + " " + this.getLast_name();
+	}
+	
+	public boolean canReviewArticle (Article article) {
 
-	//***************************************************************
-	private boolean canReviewArticle (Article article) {
-
-		if(article.containsKeyWords(keyWords) && isEvaluador()) {
+		if(isEvaluador() && !isAuthor(article) && article.containsKeyWordsNeeded(keyWords)) {
 			return true;
 		}
 
 
 		return false;
 	}
-
+	
+	//***************************************************************
 	private boolean isEvaluador () {
 
 		for (Role role : roles) {
@@ -167,6 +177,14 @@ public class User {
 				return true;
 			}
 
+		}
+		return false;
+	}
+	
+	private boolean isAuthor (Article article) {
+		
+		if(this.articles.contains(article)) {
+			return true;
 		}
 		return false;
 	}
