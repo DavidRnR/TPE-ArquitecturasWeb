@@ -1,7 +1,13 @@
-package app;
+package test;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import org.junit.Test;
 
 import entities.Article;
 import entities.Articulo;
@@ -18,18 +24,13 @@ import services.KeyWordDAO;
 import services.RoleDAO;
 import services.UserDAO;
 
-import java.util.Calendar;
-import java.util.Date;
+public class ServiceTest {
 
-import javax.persistence.EntityManager;
-
-public class MainApp {
-
-	public static void main(String[] args) {
-
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cacic2018");
-		EntityManager em = emf.createEntityManager();
-
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cacic2018");
+	EntityManager em = emf.createEntityManager();
+	
+	@Test
+	public void setDataTest() {
 		Role roleAutor = new Role("autor");
 		Role roleEvaluador = new Role("evaluador");
 
@@ -41,7 +42,7 @@ public class MainApp {
 		KeyWord keyword6 = new KeyWord("Python");
 		KeyWord keyword7 = new KeyWord("Micro Servicios");
 		KeyWord keyword8 = new KeyWord("Arquitectura");
-	
+
 
 		User user1 = new User("David", "Martin", "carlosdavidmartin@gmail.com");
 		user1.addRole(roleAutor);
@@ -85,7 +86,7 @@ public class MainApp {
 		Category category1 = new Articulo("Artículo");
 		Category category2 = new Resumen("Resumen");
 		Category category3 = new Poster("Poster");
-	
+
 
 		Calendar cal = Calendar.getInstance();
 
@@ -105,42 +106,42 @@ public class MainApp {
 		Article article2 = new Article("Micro Servicios y algo mas", category3, dateArt2);
 		article2.addKeyWord(keyword7);
 		article2.addKeyWord(keyword8);
-	
+
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		Date dateArt3 = cal.getTime();
 		Article article3 = new Article("Aprendamos Internet de las Cosas", category2, dateArt3);
 		article3.addKeyWord(keyword2);
-	
+
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 3);
 		Date dateArt4 = cal.getTime();
 		Article article4 = new Article("IOT para principantes", category2, dateArt4);
 		article4.addKeyWord(keyword2);
-		
+
 		cal.set(Calendar.YEAR, 2018);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 6);
 		Date dateArt5 = cal.getTime();
 		Article article5 = new Article("Machine Learning básico", category2, dateArt5);
 		article5.addKeyWord(keyword1);
-		
+
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 18);
 		Date dateArt6 = cal.getTime();
 		Article article6 = new Article("Python y nada más", category3, dateArt6);
 		article6.addKeyWord(keyword6);
-		
+
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.FEBRUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 22);
 		Date dateArt7 = cal.getTime();
 		Article article7 = new Article("Javascript para principiantes", category3, dateArt7);
 		article7.addKeyWord(keyword5);
-		
+
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.DECEMBER);
 		cal.set(Calendar.DAY_OF_MONTH, 2);
@@ -148,14 +149,14 @@ public class MainApp {
 		Article article8 = new Article("Seguridad Informática", category1, dateArt8);
 		article8.addKeyWord(keyword3);
 		article8.addKeyWord(keyword4);
-		
+
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 29);
 		Date dateArt9 = cal.getTime();
 		Article article9 = new Article("Como armar una Red", category1, dateArt9);
 		article9.addKeyWord(keyword4);
-				
+
 		cal.set(Calendar.YEAR, 2018);
 		cal.set(Calendar.MONTH, Calendar.APRIL);
 		cal.set(Calendar.DAY_OF_MONTH, 14);
@@ -174,11 +175,11 @@ public class MainApp {
 		KeyWordDAO.getInstance().persist(keyword6, em);
 		KeyWordDAO.getInstance().persist(keyword7, em);
 		KeyWordDAO.getInstance().persist(keyword8, em);
-		
+
 		CategoryDAO.getInstance().persist(category1, em);
 		CategoryDAO.getInstance().persist(category2, em);
 		CategoryDAO.getInstance().persist(category3, em);
-				
+
 		UserDAO.getInstance().persist(user1, em);
 		UserDAO.getInstance().persist(user2, em);
 		UserDAO.getInstance().persist(user3, em);
@@ -189,7 +190,7 @@ public class MainApp {
 		UserDAO.getInstance().persist(user8, em);
 		UserDAO.getInstance().persist(user9, em);
 		UserDAO.getInstance().persist(user10, em);
-		
+
 		ArticleDAO.getInstance().persist(article1, em);
 		ArticleDAO.getInstance().persist(article2, em);
 		ArticleDAO.getInstance().persist(article3, em);
@@ -200,7 +201,7 @@ public class MainApp {
 		ArticleDAO.getInstance().persist(article8, em);
 		ArticleDAO.getInstance().persist(article9, em);
 		ArticleDAO.getInstance().persist(article10, em);
-		
+
 		// Autores
 		user1.addArticle(article7);
 		user2.addArticle(article1);
@@ -221,13 +222,14 @@ public class MainApp {
 		UserDAO.getInstance().update(user8.getDni(), user8, em);
 		UserDAO.getInstance().update(user9.getDni(), user9, em);
 		UserDAO.getInstance().update(user10.getDni(), user10, em);
-		
-//		System.out.println(user1.addArticleRev(article7));
-//		System.out.println("Roles:" + user6.getRoles().toString());
-//		System.out.println("User 6 puede?" + user6.addArticleRev(article9));
-//		System.out.println(user5.addArticleRev(article7));
-//		System.out.println(CacicService.findEvaluadores(article10, em));
+
 		em.close();
 		emf.close();
+	} 
+	
+	@Test
+	public void findEvaluadores() {
+		Article article = ArticleDAO.getInstance().findByName("Micro Servicios y algo mas", em);
+		CacicService.findEvaluadores(article, em);
 	}
 }

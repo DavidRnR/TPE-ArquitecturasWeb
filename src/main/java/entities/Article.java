@@ -16,6 +16,7 @@ import org.hibernate.annotations.NamedQuery;
 
 @NamedQuery(name = Article.FIND_ALL, query="SELECT a FROM Article a")
 @NamedQuery(name = Article.FIND_BY_ID, query="SELECT a FROM Article a WHERE a.id = ?1")
+@NamedQuery(name = Article.FIND_BY_NAME, query="SELECT a FROM Article a WHERE a.name = ?1")
 
 @Entity
 @Table(name="Article")
@@ -23,6 +24,7 @@ public class Article {
 
 	public static final String FIND_ALL = "Article.findAll";
 	public static final String FIND_BY_ID = "Article.findById";
+	public static final String FIND_BY_NAME = "Article.findByName";
 	
 	@Id
 	@GeneratedValue

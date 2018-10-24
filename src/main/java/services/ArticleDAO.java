@@ -54,4 +54,10 @@ public class ArticleDAO implements DAO<Article,Integer> {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public Article findByName(String name, EntityManager entityManager) {
+		Query q = entityManager.createNamedQuery(Article.FIND_BY_NAME);
+		q.setParameter(1, name);
+		return (Article) q.getSingleResult();
+	}
 }

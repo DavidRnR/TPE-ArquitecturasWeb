@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NamedQuery;
 
 @NamedQuery(name = User.FIND_ALL, query="SELECT u FROM User u")
-@NamedQuery(name = User.FIND_BY_ID, query="SELECT u FROM User u WHERE u.id = ?1")
+@NamedQuery(name = User.FIND_BY_ID, query="SELECT u FROM User u WHERE u.dni = ?1")
 @NamedQuery(name = User.FIND_BY_EMAIL, query="SELECT u FROM User u WHERE u.email = ?1")
 @NamedQuery(name = User.FIND_EVALUADORES, query="SELECT u FROM User u JOIN u.roles r WHERE r.name = 'evaluador'") 
 
@@ -27,9 +27,9 @@ public class User {
 	public static final String FIND_BY_EMAIL = "User.findByEmail";
 	public static final String FIND_EVALUADORES = "User.findEvaluadores";
 	
-	@Id
+	@Id 
 	@GeneratedValue
-	private int id;
+	private int dni;
 	private String first_name;
 	private String last_name;
 	private String email;
@@ -97,8 +97,8 @@ public class User {
 		return this.keyWords.remove(keyWord);
 	}
 	
-	public int getId() {
-		return this.id;
+	public int getDni() {
+		return this.dni;
 	}
 	
 	public String getFirst_name() {
@@ -150,7 +150,11 @@ public class User {
 	}
 
 	public List<Article> getArticles() {
-		return articles;
+		return this.articles;
+	}
+	
+	public List<Article> getArticlesRev() {
+		return this.articlesRev;
 	}
 	
 	@Override
@@ -168,8 +172,7 @@ public class User {
 		return false;
 	}
 	
-	//***************************************************************
-	private boolean isEvaluador () {
+	public boolean isEvaluador () {
 
 		for (Role role : roles) {
 
@@ -181,7 +184,7 @@ public class User {
 		return false;
 	}
 	
-	private boolean isAuthor (Article article) {
+	public boolean isAuthor (Article article) {
 		
 		if(this.articles.contains(article)) {
 			return true;
