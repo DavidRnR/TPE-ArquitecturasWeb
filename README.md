@@ -6,15 +6,14 @@
 2 - MySQL
 
 ## Instrucciones:
-1 - Abrir Eclipse
-2 - Click File--->Import
-3 - Seleccionar Git - Projects from Git - Click Next
-4 - Seleccionar Clone URL - Click Next
-5 - Pegar https://github.com/DavidRnR/TPE-ArquitecturasWeb.git en Location ---> URL 
-6 - Seleccionar master branch - Click Next - Click Next
-7 - Seleccionar "Import existing Eclipse projects" - Click Next
-8 - Click Finish - Esperar a que se actualicen las librerias Maven
-9 - Click Run - Run as - JUnit Test
-
-
-
+<ol>
+    <li>Abrir Eclipse</li>
+    <li>Click File--->Import</li>
+    <li>Seleccionar Git - Projects from Git - Click Next</li>
+    <li>Seleccionar Clone URL - Click Next</li>
+    <li>Pegar https://github.com/DavidRnR/TPE-ArquitecturasWeb.git en Location ---> URL </li>
+    <li>Seleccionar master branch - Click Next - Click Next</li>
+    <li>Seleccionar "Import existing Eclipse projects" - Click Next</li>
+    <li>Click Finish - Esperar a que se actualicen las librerias Maven</li>
+    <li>Click Run - Run as - JUnit Test</li>
+</ol>
