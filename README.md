@@ -2,8 +2,11 @@
 ##  Martín, Carlos David - TUDAI 2018
 
 ## Requerimientos:
-1 - Eclipse IDE EE - Java 8
-2 - MySQL
+<ol>
+    <li>Java 8</li>
+    <li>Eclipse IDE EE</li>
+    <li>MySQL</li>
+</ol>
 
 ## Instrucciones:
 <ol>
