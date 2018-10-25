@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import entities.Article;
+import entities.Work;
 import entities.User;
 
 public class CacicService {
@@ -19,12 +19,12 @@ public class CacicService {
 	 */
 	public static List<User> findEvaluadores(String name, EntityManager em) {
 		List<User> result = new ArrayList<User>();
-		Article article = ArticleDAO.getInstance().findByName(name, em);
+		Work work = WorkDAO.getInstance().findByName(name, em);
 
-		if(article != null) {
+		if(work != null) {
 			List<User> evaluadores = UserDAO.getInstance().getEvaludoares(em);
 			for (User ev : evaluadores) {
-				if(ev.canReviewArticle(article)) {
+				if(ev.canReviewArticle(work)) {
 					result.add(ev);
 				}
 			}
@@ -34,20 +34,20 @@ public class CacicService {
 	}
 
 	/**
-	 * Obtener todos los Articulos que puede revisar un evaluador
+	 * Obtener todos los Articulos que PUEDE revisar un evaluador
 	 * @param dni
 	 * @param em
 	 * @return
 	 */
-	public static List<Article> findArticlesToEvaluador(long dni, EntityManager em) {
-		List<Article> result = new ArrayList<Article>();
+	public static List<Work> findArticlesToEvaluador(long dni, EntityManager em) {
+		List<Work> result = new ArrayList<Work>();
 		User user = UserDAO.getInstance().findByDni(dni, em);
 
 		if(user != null && user.isEvaluador()) {
-			List<Article> articles = ArticleDAO.getInstance().findAll(em);
-			for (Article article : articles) {
-				if(user.canReviewArticle(article)) {
-					result.add(article);
+			List<Work> works = WorkDAO.getInstance().findAll(em);
+			for (Work work : works) {
+				if(user.canReviewArticle(work)) {
+					result.add(work);
 				}
 			}
 		}
@@ -56,29 +56,44 @@ public class CacicService {
 	}
 
 	/**
-	 * Obtener la cantidad de Articulos que tiene un Evaluador
+	 * Obtener los Articulos que tiene un Evaluador
 	 * @param dni
 	 * @param em
 	 * @return
 	 */
-	public static int getQuantityArticlesByEvaluador(int dni, EntityManager em) {
-		User user = UserDAO.getInstance().findById(dni, em);
-
+	public static List<Work> getArticlesByEvaluador(long dni, EntityManager em) {
+		User user = UserDAO.getInstance().findByDni(dni, em);
+		
 		if(user != null && user.isEvaluador()) {
-			return user.getArticlesRev().size();
+			return user.getWorksRev();
 		}
 
-		return 0;
+		return null;
 	}
 
 
-	public static boolean isEvaluadorExpert(int dni, EntityManager em) {
-		User user = UserDAO.getInstance().findById(dni, em);
+	public static boolean isEvaluadorExpert(long dni, EntityManager em) {
+		User user = UserDAO.getInstance().findByDni(dni, em);
 
 		if(user != null && user.isEvaluador()) {
 			return user.isExpert();
 		}
 
 		return false;
+	}
+	
+	/**
+	 * Dado un DNI, obtener los datos de un Usuario
+	 * @param dni
+	 * @return
+	 */
+	public static String getUserData (long dni, EntityManager em) {
+		User user = UserDAO.getInstance().findByDni(dni, em);
+
+		if(user != null) {
+			return user.toString();
+		}
+
+		return null;
 	}
 }

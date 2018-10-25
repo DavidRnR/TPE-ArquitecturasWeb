@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import entities.Article;
+import entities.Work;
 import entities.User;
 
 public class UserDAO implements DAO<User,Integer>{
@@ -59,8 +59,8 @@ public class UserDAO implements DAO<User,Integer>{
 	}
 
 	@Override
-	public boolean delete(Integer id, EntityManager entityManager) {
-		User user = this.findById(id, entityManager);
+	public boolean delete(Integer dni, EntityManager entityManager) {
+		User user = this.findById(dni, entityManager);
 		if(user != null) {
 			entityManager.getTransaction().begin();
 			entityManager.remove(user);
@@ -72,11 +72,24 @@ public class UserDAO implements DAO<User,Integer>{
 		}
 	}
 	
-	public boolean addArticle (Integer id, Article article, EntityManager entityManager) {
-		User user = this.findById(id, entityManager);
+	public boolean addWork (long dni, Work work, EntityManager entityManager) {
+		User user = this.findByDni(dni, entityManager);
 		if(user != null) {
 			entityManager.getTransaction().begin();
-			user.addArticle(article);
+			user.addWork(work);
+			entityManager.persist(user);
+			entityManager.getTransaction().commit();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean addArticleToReview (long dni, Work work, EntityManager entityManager) {
+		User user = this.findByDni(dni, entityManager);
+		if(user != null && user.addWorkRev(work)) {
+			entityManager.getTransaction().begin();
 			entityManager.persist(user);
 			entityManager.getTransaction().commit();
 			return true;

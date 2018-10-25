@@ -14,19 +14,19 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NamedQuery;
 
-@NamedQuery(name = Article.FIND_ALL, query="SELECT a FROM Article a")
-@NamedQuery(name = Article.FIND_BY_ID, query="SELECT a FROM Article a WHERE a.id = ?1")
-@NamedQuery(name = Article.FIND_BY_NAME, query="SELECT a FROM Article a WHERE a.name = ?1")
-@NamedQuery(name = Article.DELETE_TABLE, query="DELETE FROM Article a") 
+@NamedQuery(name = Work.FIND_ALL, query="SELECT w FROM Work w")
+@NamedQuery(name = Work.FIND_BY_ID, query="SELECT w FROM Work w WHERE w.id = ?1")
+@NamedQuery(name = Work.FIND_BY_NAME, query="SELECT w FROM Work w WHERE w.name = ?1")
+@NamedQuery(name = Work.DELETE_TABLE, query="DELETE FROM Work w") 
 
 @Entity
 @Table(name="Article")
-public class Article {
+public class Work {
 
-	public static final String FIND_ALL = "Article.findAll";
-	public static final String FIND_BY_ID = "Article.findById";
-	public static final String FIND_BY_NAME = "Article.findByName";
-	public static final String DELETE_TABLE = "Article.deleteTable";
+	public static final String FIND_ALL = "Work.findAll";
+	public static final String FIND_BY_ID = "Work.findById";
+	public static final String FIND_BY_NAME = "Work.findByName";
+	public static final String DELETE_TABLE = "Work.deleteTable";
 	
 	@Id
 	@GeneratedValue
@@ -40,9 +40,9 @@ public class Article {
 	@ManyToMany
 	private List<KeyWord> keyWords;
 		
-	public Article() {}
+	public Work() {}
 
-	public Article(String name, Category category, Date created) {
+	public Work(String name, Category category, Date created) {
 		this.name = name;
 		this.category = category;
 		this.created = created;

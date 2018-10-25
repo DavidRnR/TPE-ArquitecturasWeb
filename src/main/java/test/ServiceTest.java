@@ -1,6 +1,5 @@
 package test;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
@@ -15,7 +14,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import entities.Article;
+import entities.Work;
 import entities.Articulo;
 import entities.Category;
 import entities.KeyWord;
@@ -23,7 +22,8 @@ import entities.Poster;
 import entities.Resumen;
 import entities.Role;
 import entities.User;
-import services.ArticleDAO;
+
+import services.WorkDAO;
 import services.CacicService;
 import services.CategoryDAO;
 import services.KeyWordDAO;
@@ -49,7 +49,7 @@ public class ServiceTest {
 		KeyWord keyword7 = new KeyWord("Micro Servicios");
 		KeyWord keyword8 = new KeyWord("Arquitectura");
 
-
+		
 		User user1 = new User(31156181, "David", "Martin", "carlosdavidmartin@gmail.com");
 		user1.addRole(roleAutor);
 		user1.addRole(roleEvaluador);
@@ -101,75 +101,75 @@ public class ServiceTest {
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		Date dateArt1 = cal.getTime();
-		Article article1 = new Article("Mas allá de la gran Network", category1, dateArt1);
-		article1.addKeyWord(keyword4);
-		article1.addKeyWord(keyword3);
+		Work work1 = new Work("Mas alla de la gran Network", category1, dateArt1);
+		work1.addKeyWord(keyword4);
+		work1.addKeyWord(keyword3);
 
 		cal.set(Calendar.YEAR, 2018);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 3);
 		Date dateArt2 = cal.getTime();
-		Article article2 = new Article("Micro Servicios y algo mas", category3, dateArt2);
-		article2.addKeyWord(keyword7);
-		article2.addKeyWord(keyword8);
+		Work work2 = new Work("Micro Servicios y algo mas", category3, dateArt2);
+		work2.addKeyWord(keyword7);
+		work2.addKeyWord(keyword8);
 
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		Date dateArt3 = cal.getTime();
-		Article article3 = new Article("Aprendamos Internet de las Cosas", category2, dateArt3);
-		article3.addKeyWord(keyword2);
+		Work work3 = new Work("Aprendamos Internet de las Cosas", category2, dateArt3);
+		work3.addKeyWord(keyword2);
 
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 3);
 		Date dateArt4 = cal.getTime();
-		Article article4 = new Article("IOT para principantes", category2, dateArt4);
-		article4.addKeyWord(keyword2);
+		Work work4 = new Work("IOT para principantes", category2, dateArt4);
+		work4.addKeyWord(keyword2);
 
 		cal.set(Calendar.YEAR, 2018);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 6);
 		Date dateArt5 = cal.getTime();
-		Article article5 = new Article("Machine Learning básico", category2, dateArt5);
-		article5.addKeyWord(keyword1);
+		Work work5 = new Work("Machine Learning basico", category2, dateArt5);
+		work5.addKeyWord(keyword1);
 
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 18);
 		Date dateArt6 = cal.getTime();
-		Article article6 = new Article("Python y nada más", category3, dateArt6);
-		article6.addKeyWord(keyword6);
+		Work work6 = new Work("Python y nada mas", category3, dateArt6);
+		work6.addKeyWord(keyword6);
 
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.FEBRUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 22);
 		Date dateArt7 = cal.getTime();
-		Article article7 = new Article("Javascript para principiantes", category3, dateArt7);
-		article7.addKeyWord(keyword5);
+		Work work7 = new Work("Javascript para principiantes", category3, dateArt7);
+		work7.addKeyWord(keyword5);
 
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.DECEMBER);
 		cal.set(Calendar.DAY_OF_MONTH, 2);
 		Date dateArt8 = cal.getTime();
-		Article article8 = new Article("Seguridad Informática", category1, dateArt8);
-		article8.addKeyWord(keyword3);
-		article8.addKeyWord(keyword4);
+		Work work8 = new Work("Seguridad Informatica", category1, dateArt8);
+		work8.addKeyWord(keyword3);
+		work8.addKeyWord(keyword4);
 
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 29);
 		Date dateArt9 = cal.getTime();
-		Article article9 = new Article("Como armar una Red", category1, dateArt9);
-		article9.addKeyWord(keyword4);
+		Work work9 = new Work("Como armar una Red", category1, dateArt9);
+		work9.addKeyWord(keyword4);
 
 		cal.set(Calendar.YEAR, 2018);
 		cal.set(Calendar.MONTH, Calendar.APRIL);
 		cal.set(Calendar.DAY_OF_MONTH, 14);
 		Date dateArt10 = cal.getTime();
-		Article article10 = new Article("Por qué Micro Servicios?", category3, dateArt10);
-		article10.addKeyWord(keyword7);
-		article10.addKeyWord(keyword8);
+		Work work10 = new Work("Por que Micro Servicios?", category3, dateArt10);
+		work10.addKeyWord(keyword7);
+		work10.addKeyWord(keyword8);
 
 		RoleDAO.getInstance().persist(roleAutor, em); 
 		RoleDAO.getInstance().persist(roleEvaluador, em);
@@ -185,7 +185,7 @@ public class ServiceTest {
 		CategoryDAO.getInstance().persist(category1, em);
 		CategoryDAO.getInstance().persist(category2, em);
 		CategoryDAO.getInstance().persist(category3, em);
-
+		
 		UserDAO.getInstance().persist(user1, em);
 		UserDAO.getInstance().persist(user2, em);
 		UserDAO.getInstance().persist(user3, em);
@@ -197,29 +197,32 @@ public class ServiceTest {
 		UserDAO.getInstance().persist(user9, em);
 		UserDAO.getInstance().persist(user10, em);
 
-		ArticleDAO.getInstance().persist(article1, em);
-		ArticleDAO.getInstance().persist(article2, em);
-		ArticleDAO.getInstance().persist(article3, em);
-		ArticleDAO.getInstance().persist(article4, em);
-		ArticleDAO.getInstance().persist(article5, em);
-		ArticleDAO.getInstance().persist(article6, em);
-		ArticleDAO.getInstance().persist(article7, em);
-		ArticleDAO.getInstance().persist(article8, em);
-		ArticleDAO.getInstance().persist(article9, em);
-		ArticleDAO.getInstance().persist(article10, em);
+		WorkDAO.getInstance().persist(work1, em);
+		WorkDAO.getInstance().persist(work2, em);
+		WorkDAO.getInstance().persist(work3, em);
+		WorkDAO.getInstance().persist(work4, em);
+		WorkDAO.getInstance().persist(work5, em);
+		WorkDAO.getInstance().persist(work6, em);
+		WorkDAO.getInstance().persist(work7, em);
+		WorkDAO.getInstance().persist(work8, em);
+		WorkDAO.getInstance().persist(work9, em);
+		WorkDAO.getInstance().persist(work10, em);
 
 		// Autores
-		user1.addArticle(article7);
-		user2.addArticle(article1);
-		user2.addArticle(article6);
-		user3.addArticle(article2);
-		user4.addArticle(article5);
-		user6.addArticle(article3);
-		user8.addArticle(article10);
-		user9.addArticle(article3);
-		user9.addArticle(article9);
-		user10.addArticle(article8);
-
+		user1.addWork(work7);
+		user2.addWork(work1);
+		user2.addWork(work6);
+		user3.addWork(work2);
+		user4.addWork(work5);
+		user6.addWork(work3);
+		user8.addWork(work10);
+		user9.addWork(work3);
+		user9.addWork(work9);
+		user10.addWork(work8);
+		
+		// User 1 evalua article9
+		user1.addWorkRev(work9);
+		
 		UserDAO.getInstance().update(user1.getId(), user1, em);
 		UserDAO.getInstance().update(user2.getId(), user2, em);
 		UserDAO.getInstance().update(user3.getId(), user3, em);
@@ -235,7 +238,7 @@ public class ServiceTest {
 		
 		em.getTransaction( ).begin( );	
 		em.createNamedQuery(User.DELETE_TABLE).executeUpdate();
-		em.createNamedQuery(Article.DELETE_TABLE).executeUpdate();
+		em.createNamedQuery(Work.DELETE_TABLE).executeUpdate();
 		em.createNamedQuery(Category.DELETE_TABLE).executeUpdate();
 		em.createNamedQuery(KeyWord.DELETE_TABLE).executeUpdate();
 		em.createNamedQuery(Role.DELETE_TABLE).executeUpdate();
@@ -245,10 +248,30 @@ public class ServiceTest {
 		emf.close();
 	}
 	
+	/**
+	 * Dado el nombre de un trabajo, devolver todos los posibles Evaluadores
+	 */
 	@Test
 	public void findEvaluadores() {
 		List<User> evaluadores = CacicService.findEvaluadores("Javascript para principiantes", em);
 		assertTrue("No encuentra evaluadores", !evaluadores.isEmpty());
-		
+	}
+	
+	/**
+	 * Dado un usuario devolver toda su informaci�n
+	 */
+	@Test
+	public void getUserData() {
+		String userData = CacicService.getUserData(31156181, em);
+		assertTrue("Usuario no encontrado", userData != null);
+	}
+	
+	/**
+	 * Dado un evaluador, retornar todos sus trabajos asignados.
+	 */
+	@Test
+	public void getArticlesByEvaluador() {
+		List<Work> works = CacicService.getArticlesByEvaluador(31156181, em);
+		assertTrue("El usuario no tiene Articulos", !works.isEmpty());
 	}
 }

@@ -31,6 +31,8 @@ public class User {
 	public static final String FIND_EVALUADORES = "User.findEvaluadores";
 	public static final String DELETE_TABLE = "User.deleteTable";
 	
+	private static final int MAX_ART_REV = 3;
+	
 	@Id 
 	@GeneratedValue
 	private int id;
@@ -39,16 +41,16 @@ public class User {
 	private String last_name;
 	private String email;
 	private boolean expert;
-
+	
 	@ManyToMany
 	private List<Role> roles;
 	@ManyToMany
 	private List<KeyWord> keyWords;
 	@ManyToMany
-	private List<Article> articles;
+	private List<Work> works;
 	@ManyToMany
-	@JoinTable(name = "User_Rev_Article")
-	private List<Article> articlesRev;
+	@JoinTable(name = "User_Rev_Work")
+	private List<Work> worksRev;
 
 	public User() {}
 
@@ -59,9 +61,9 @@ public class User {
 		this.email = email;
 		this.expert = false;
 		this.roles = new ArrayList<Role>();
-		this.articles = new ArrayList<Article>();
+		this.works = new ArrayList<Work>();
 		this.keyWords = new ArrayList<KeyWord>();
-		this.articlesRev = new ArrayList<Article>();
+		this.worksRev = new ArrayList<Work>();
 	}
 
 	public boolean addRole (Role role) {
@@ -72,24 +74,24 @@ public class User {
 		return this.roles.remove(role);
 	}
 
-	public boolean addArticle (Article article) {
-		return this.articles.add(article);
+	public boolean addWork (Work work) {
+		return this.works.add(work);
 	}
 
-	public boolean removeArticle (Article article) {
-		return this.articles.remove(article);
+	public boolean removeWork (Work work) {
+		return this.works.remove(work);
 	}
 
-	public boolean addArticleRev (Article article) {
-		if(canReviewArticle(article)) {
-			this.articlesRev.add(article);
+	public boolean addWorkRev (Work work) {
+		if(canReviewArticle(work)) {
+			this.worksRev.add(work);
 			return true;
 		}
 		return false;
 	}
 
-	public boolean removeArticleRev (Article article) {
-		return this.articlesRev.remove(article);
+	public boolean removeWorkRev (Work work) {
+		return this.worksRev.remove(work);
 	}
 
 	public boolean addKeyWord (KeyWord keyWord) {
@@ -159,22 +161,29 @@ public class User {
 		this.keyWords = keyWords;
 	}
 
-	public List<Article> getArticles() {
-		return this.articles;
+	public List<Work> getWorks() {
+		return this.works;
 	}
 	
-	public List<Article> getArticlesRev() {
-		return this.articlesRev;
+	public List<Work> getWorksRev() {
+		return this.worksRev;
 	}
 	
 	@Override
 	public String toString () {
-		return this.getFirst_name() + " " + this.getLast_name();
+		return this.getFirst_name() + " " + this.getLast_name() + "\n" + 
+			   "Email: " + this.email +  "\n" +
+			   "Areas: " + this.keyWords + "\n" + 
+			   "Roles: " + this.roles + "\n" + 
+			   "Articulos: " + this.works + "\n" + 
+			   "Articulos para Revisar: " + this.worksRev +  "\n"  +
+			   "Experto: " + this.expert;
+		
 	}
 	
-	public boolean canReviewArticle (Article article) {
+	public boolean canReviewArticle (Work work) {
 
-		if(isEvaluador() && !isAuthor(article) && article.containsKeyWordsNeeded(keyWords)) {
+		if(isEvaluador() && !isAuthor(work) && this.worksRev.size() <= MAX_ART_REV && work.containsKeyWordsNeeded(keyWords)) {
 			return true;
 		}
 
@@ -194,9 +203,9 @@ public class User {
 		return false;
 	}
 	
-	public boolean isAuthor (Article article) {
+	public boolean isAuthor (Work work) {
 		
-		if(this.articles.contains(article)) {
+		if(this.works.contains(work)) {
 			return true;
 		}
 		return false;

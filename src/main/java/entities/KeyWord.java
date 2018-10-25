@@ -31,14 +31,14 @@ public class KeyWord {
 	@ManyToMany
 	private List<User> users;
 	@ManyToMany
-	private List<Article> articles;
+	private List<Work> articles;
 	
 	public KeyWord() {}
 
 	public KeyWord(String word) {
 		this.word = word;
 		this.users = new ArrayList<User>();
-		this.articles = new ArrayList<Article>();
+		this.articles = new ArrayList<Work>();
 	}
 	
 	public boolean addUser (User user) {
@@ -49,11 +49,11 @@ public class KeyWord {
 		return this.users.remove(user);
 	}
 
-	public boolean addArticle (Article article) {
+	public boolean addArticle (Work article) {
 		return this.articles.add(article);
 	}
 
-	public boolean removeArticle (Article article) {
+	public boolean removeArticle (Work article) {
 		return this.articles.remove(article);
 	}
 	
@@ -73,11 +73,11 @@ public class KeyWord {
 		this.users = users;
 	}
 
-	public List<Article> getArticles() {
+	public List<Work> getArticles() {
 		return articles;
 	}
 
-	public void setArticles(List<Article> articles) {
+	public void setArticles(List<Work> articles) {
 		this.articles = articles;
 	}
 }

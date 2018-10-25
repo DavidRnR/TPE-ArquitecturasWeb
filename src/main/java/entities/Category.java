@@ -31,20 +31,20 @@ public abstract class Category {
 	private String name;
 
 	@OneToMany
-	private List<Article> articles;
+	private List<Work> articles;
 
 	public Category() {}
 
 	public Category(String name) {
 		this.name = name;
-		this.articles = new ArrayList<Article>();
+		this.articles = new ArrayList<Work>();
 	}
 
-	public boolean addArticle (Article article) {
+	public boolean addArticle (Work article) {
 		return this.articles.add(article);
 	}
 
-	public boolean removeArticle (Article article) {
+	public boolean removeArticle (Work article) {
 		return this.articles.remove(article);
 	}
 	
@@ -56,11 +56,11 @@ public abstract class Category {
 		this.name = name;
 	}
 
-	public List<Article> getArticles() {
+	public List<Work> getArticles() {
 		return articles;
 	}
 
-	public void setArticles(List<Article> articles) {
+	public void setArticles(List<Work> articles) {
 		this.articles = articles;
 	}
 	
