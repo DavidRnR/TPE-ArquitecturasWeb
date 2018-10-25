@@ -13,18 +13,23 @@ public class CacicService {
 
 	/**
 	 * Obtener Todos los Evaluadores aptos para revisar un Articulo 
-	 * @param article
+	 * @param name
 	 * @param em
 	 * @return
 	 */
-	public static List<User> findEvaluadores(Article article, EntityManager em) {
+	public static List<User> findEvaluadores(String name, EntityManager em) {
 		List<User> result = new ArrayList<User>();
-		List<User> evaluadores = UserDAO.getInstance().getEvaludoares(em);
-		for (User ev : evaluadores) {
-			if(ev.canReviewArticle(article)) {
-				result.add(ev);
+		Article article = ArticleDAO.getInstance().findByName(name, em);
+
+		if(article != null) {
+			List<User> evaluadores = UserDAO.getInstance().getEvaludoares(em);
+			for (User ev : evaluadores) {
+				if(ev.canReviewArticle(article)) {
+					result.add(ev);
+				}
 			}
 		}
+
 		return result;
 	}
 
@@ -34,9 +39,9 @@ public class CacicService {
 	 * @param em
 	 * @return
 	 */
-	public static List<Article> findArticlesToEvaluador(int dni, EntityManager em) {
+	public static List<Article> findArticlesToEvaluador(long dni, EntityManager em) {
 		List<Article> result = new ArrayList<Article>();
-		User user = UserDAO.getInstance().findById(dni, em);
+		User user = UserDAO.getInstance().findByDni(dni, em);
 
 		if(user != null && user.isEvaluador()) {
 			List<Article> articles = ArticleDAO.getInstance().findAll(em);

@@ -13,6 +13,7 @@ import org.hibernate.annotations.NamedQuery;
 
 @NamedQuery(name = KeyWord.FIND_ALL, query="SELECT kw FROM KeyWord kw")
 @NamedQuery(name = KeyWord.FIND_BY_ID, query="SELECT kw FROM KeyWord kw WHERE kw.id = ?1")
+@NamedQuery(name = KeyWord.DELETE_TABLE, query="DELETE FROM KeyWord k") 
 
 @Entity
 @Table(name="KeyWord")
@@ -20,6 +21,7 @@ public class KeyWord {
 
 	public static final String FIND_ALL = "KeyWord.findAll";
 	public static final String FIND_BY_ID = "KeyWord.findById";
+	public static final String DELETE_TABLE = "KeyWord.deleteTable";
 
 	@Id
 	@GeneratedValue

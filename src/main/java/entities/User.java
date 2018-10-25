@@ -14,9 +14,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NamedQuery;
 
 @NamedQuery(name = User.FIND_ALL, query="SELECT u FROM User u")
-@NamedQuery(name = User.FIND_BY_ID, query="SELECT u FROM User u WHERE u.dni = ?1")
+@NamedQuery(name = User.FIND_BY_ID, query="SELECT u FROM User u WHERE u.id = ?1")
+@NamedQuery(name = User.FIND_BY_DNI, query="SELECT u FROM User u WHERE u.dni = ?1")
 @NamedQuery(name = User.FIND_BY_EMAIL, query="SELECT u FROM User u WHERE u.email = ?1")
 @NamedQuery(name = User.FIND_EVALUADORES, query="SELECT u FROM User u JOIN u.roles r WHERE r.name = 'evaluador'") 
+@NamedQuery(name = User.DELETE_TABLE, query="DELETE FROM User u") 
 
 @Entity
 @Table(name="User")
@@ -24,12 +26,15 @@ public class User {
 
 	public static final String FIND_ALL = "User.findAll";
 	public static final String FIND_BY_ID = "User.findById";
+	public static final String FIND_BY_DNI = "User.findByDni";
 	public static final String FIND_BY_EMAIL = "User.findByEmail";
 	public static final String FIND_EVALUADORES = "User.findEvaluadores";
+	public static final String DELETE_TABLE = "User.deleteTable";
 	
 	@Id 
 	@GeneratedValue
-	private int dni;
+	private int id;
+	private long dni;
 	private String first_name;
 	private String last_name;
 	private String email;
@@ -47,7 +52,8 @@ public class User {
 
 	public User() {}
 
-	public User(String first_name, String last_name, String email) {
+	public User(int dni, String first_name, String last_name, String email) {
+		this.dni = dni;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.email = email;
@@ -97,7 +103,11 @@ public class User {
 		return this.keyWords.remove(keyWord);
 	}
 	
-	public int getDni() {
+	public int getId() {
+		return this.id;
+	}
+	
+	public long getDni() {
 		return this.dni;
 	}
 	

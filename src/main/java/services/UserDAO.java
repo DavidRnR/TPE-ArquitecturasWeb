@@ -91,4 +91,10 @@ public class UserDAO implements DAO<User,Integer>{
 		List<User> users = q.getResultList();
 		return users;
 	}
+	
+	public User findByDni(long dni, EntityManager entityManager) {
+		Query q = entityManager.createNamedQuery(User.FIND_BY_DNI);
+		q.setParameter(1, dni);
+		return (User) q.getSingleResult();
+	}
 }

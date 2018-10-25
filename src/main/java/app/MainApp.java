@@ -43,27 +43,27 @@ public class MainApp {
 		KeyWord keyword8 = new KeyWord("Arquitectura");
 	
 
-		User user1 = new User("David", "Martin", "carlosdavidmartin@gmail.com");
+		User user1 = new User(31156181, "David", "Martin", "carlosdavidmartin@gmail.com");
 		user1.addRole(roleAutor);
 		user1.addRole(roleEvaluador);
-		User user2 = new User("Emilio", "Martin", "emiliomartin@gmail.com");
+		User user2 = new User(30111224, "Emilio", "Martin", "emiliomartin@gmail.com");
 		user2.addRole(roleAutor);
-		User user3 = new User("Andrea", "Perez", "andreaperez@hotmail.com");
+		User user3 = new User(28654789, "Andrea", "Perez", "andreaperez@hotmail.com");
 		user3.addRole(roleAutor);
-		User user4 = new User("Jorge", "Gomez", "gomezjorge@yahoo.com");
+		User user4 = new User(6354852, "Jorge", "Gomez", "gomezjorge@yahoo.com");
 		user4.addRole(roleAutor);
 		user4.addRole(roleEvaluador);
-		User user5 = new User("Carolina", "Ferrari", "ferraricaro@hotmail.com");
+		User user5 = new User(76698471, "Carolina", "Ferrari", "ferraricaro@hotmail.com");
 		user5.addRole(roleEvaluador);
-		User user6 = new User("Camila", "Martinez", "camilamart@gmail.com");
+		User user6 = new User(33674159, "Camila", "Martinez", "camilamart@gmail.com");
 		user6.addRole(roleAutor);
-		User user7 = new User("Pedro", "Monzon", "monpedro@yahoo.com");
+		User user7 = new User(34789654, "Pedro", "Monzon", "monpedro@yahoo.com");
 		user7.addRole(roleAutor);
-		User user8 = new User("Esteban", "Garcia", "estgarcia@gmail.com");
+		User user8 = new User(15478951, "Esteban", "Garcia", "estgarcia@gmail.com");
 		user8.addRole(roleAutor);
-		User user9 = new User("Paola", "Mendez", "pao_mendez@gmail.com");
+		User user9 = new User(17698473, "Paola", "Mendez", "pao_mendez@gmail.com");
 		user9.addRole(roleAutor);
-		User user10 = new User("Victoria", "Pozo", "pozovicky@gmail.com");
+		User user10 = new User(19478963, "Victoria", "Pozo", "pozovicky@gmail.com");
 		user10.addRole(roleAutor);
 		// Evaluadores
 		user1.addKeyWord(keyword1);
@@ -213,20 +213,21 @@ public class MainApp {
 		user9.addArticle(article9);
 		user10.addArticle(article8);
 
-		UserDAO.getInstance().update(user1.getDni(), user1, em);
-		UserDAO.getInstance().update(user2.getDni(), user2, em);
-		UserDAO.getInstance().update(user3.getDni(), user3, em);
-		UserDAO.getInstance().update(user4.getDni(), user4, em);
-		UserDAO.getInstance().update(user6.getDni(), user6, em);
-		UserDAO.getInstance().update(user8.getDni(), user8, em);
-		UserDAO.getInstance().update(user9.getDni(), user9, em);
-		UserDAO.getInstance().update(user10.getDni(), user10, em);
+		UserDAO.getInstance().update(user1.getId(), user1, em);
+		UserDAO.getInstance().update(user2.getId(), user2, em);
+		UserDAO.getInstance().update(user3.getId(), user3, em);
+		UserDAO.getInstance().update(user4.getId(), user4, em);
+		UserDAO.getInstance().update(user6.getId(), user6, em);
+		UserDAO.getInstance().update(user8.getId(), user8, em);
+		UserDAO.getInstance().update(user9.getId(), user9, em);
+		UserDAO.getInstance().update(user10.getId(), user10, em);
 		
 //		System.out.println(user1.addArticleRev(article7));
 //		System.out.println("Roles:" + user6.getRoles().toString());
 //		System.out.println("User 6 puede?" + user6.addArticleRev(article9));
 //		System.out.println(user5.addArticleRev(article7));
-//		System.out.println(CacicService.findEvaluadores(article10, em));
+//		System.out.println(CacicService.findEvaluadores("Javascript para principiantes", em));
+//		System.out.println(CacicService.findArticlesToEvaluador(31156181, em));
 		em.close();
 		emf.close();
 	}
