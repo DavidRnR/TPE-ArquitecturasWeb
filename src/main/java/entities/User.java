@@ -19,6 +19,7 @@ import org.hibernate.annotations.NamedQuery;
 @NamedQuery(name = User.FIND_BY_DNI, query="SELECT u FROM User u WHERE u.dni = ?1")
 @NamedQuery(name = User.FIND_BY_EMAIL, query="SELECT u FROM User u WHERE u.email = ?1")
 @NamedQuery(name = User.FIND_EVALUADORES, query="SELECT u FROM User u JOIN u.roles r WHERE r.name = 'evaluador'")
+@NamedQuery(name = User.FIND_BY_USER_AND_KEYWORD, query="SELECT w FROM User u JOIN u.keyWords k JOIN u.works w WHERE u.dni = ?1 AND k.word = ?2")
 @NamedQuery(name = User.DELETE_TABLE, query="DELETE FROM User u") 
 
 @Entity
@@ -30,6 +31,7 @@ public class User {
 	public static final String FIND_BY_DNI = "User.findByDni";
 	public static final String FIND_BY_EMAIL = "User.findByEmail";
 	public static final String FIND_EVALUADORES = "User.findEvaluadores";
+	public static final String FIND_BY_USER_AND_KEYWORD = "User.findByUserAndKeyWord";
 	public static final String DELETE_TABLE = "User.deleteTable";
 
 	private static final int MAX_ART_REV = 3;
@@ -177,7 +179,7 @@ public class User {
 	public List<Work> getWorksRev() {
 		return this.worksRev;
 	}
-
+	
 	@Override
 	public String toString () {
 		return this.getFirst_name() + " " + this.getLast_name() + "\n" + 

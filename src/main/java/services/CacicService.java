@@ -35,12 +35,12 @@ public class CacicService {
 	}
 
 	/**
-	 * Obtener todos los Articulos que PUEDE revisar un evaluador
+	 * Obtener todos los Trabajos que PUEDE revisar un evaluador
 	 * @param dni
 	 * @param em
 	 * @return
 	 */
-	public static List<Work> findArticlesToEvaluador(long dni, EntityManager em) {
+	public static List<Work> findWorksToEvaluador(long dni, EntityManager em) {
 		List<Work> result = new ArrayList<Work>();
 		User user = UserDAO.getInstance().findByDni(dni, em);
 
@@ -62,7 +62,7 @@ public class CacicService {
 	 * @param em
 	 * @return
 	 */
-	public static List<Work> getArticlesByEvaluador(long dni, EntityManager em) {
+	public static List<Work> getWorksByEvaluador(long dni, EntityManager em) {
 		User user = UserDAO.getInstance().findByDni(dni, em);
 
 		if(user != null && user.isEvaluador()) {
@@ -78,11 +78,27 @@ public class CacicService {
 	 * @param em
 	 * @return
 	 */
-	public static List<Work> getArticlesByAuthor(long dni, EntityManager em) {
+	public static List<Work> getWorksByAuthor(long dni, EntityManager em) {
 		User user = UserDAO.getInstance().findByDni(dni, em);
 
 		if(user != null && user.isAuthor()) {
 			return user.getWorks();
+		}
+
+		return null;
+	}
+	
+	/**
+	 * Obtener los Articulos por Categoria que tiene un Usuario
+	 * @param dni
+	 * @param em
+	 * @return
+	 */
+	public static List<Work> getWorksByUserAndCategory(long dni, String keyWord, EntityManager em) {
+		User user = UserDAO.getInstance().findByDni(dni, em);
+		
+		if(user != null) {
+			return UserDAO.getInstance().findWorksByUserAndKeyWord(user, keyWord, em);
 		}
 
 		return null;

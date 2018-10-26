@@ -110,4 +110,17 @@ public class UserDAO implements DAO<User,Integer>{
 		q.setParameter(1, dni);
 		return (User) q.getSingleResult();
 	}
+	
+	/**
+	 * Obtener todos los Trabajos por Usuario y Palabra Clave (KeyWord)
+	 * @param entityManager
+	 * @return
+	 */
+	public List<Work> findWorksByUserAndKeyWord(User user, String kw, EntityManager entityManager) {
+		Query q = entityManager.createNamedQuery(User.FIND_BY_USER_AND_KEYWORD);
+		q.setParameter(1, user.getDni());
+		q.setParameter(2, kw);
+		List<Work> works = q.getResultList();
+		return works;
+	}
 }

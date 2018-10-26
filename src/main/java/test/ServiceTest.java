@@ -34,7 +34,7 @@ public class ServiceTest {
 
 	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cacic2018");
 	private static EntityManager em = emf.createEntityManager();
-	
+
 	@BeforeClass
 	public static void setDataTest() {
 		Role roleAutor = new Role("autor");
@@ -49,7 +49,7 @@ public class ServiceTest {
 		KeyWord keyword7 = new KeyWord("Micro Servicios");
 		KeyWord keyword8 = new KeyWord("Arquitectura");
 
-		
+
 		User user1 = new User(31156181, "David", "Martin", "carlosdavidmartin@gmail.com");
 		user1.addRole(roleAutor);
 		user1.addRole(roleEvaluador);
@@ -185,7 +185,7 @@ public class ServiceTest {
 		CategoryDAO.getInstance().persist(category1, em);
 		CategoryDAO.getInstance().persist(category2, em);
 		CategoryDAO.getInstance().persist(category3, em);
-		
+
 		UserDAO.getInstance().persist(user1, em);
 		UserDAO.getInstance().persist(user2, em);
 		UserDAO.getInstance().persist(user3, em);
@@ -218,10 +218,10 @@ public class ServiceTest {
 		user9.addWork(work3);
 		user9.addWork(work9);
 		user10.addWork(work8);
-		
+
 		// User 1 evalua article9
 		user1.addWorkRev(work9);
-		
+
 		UserDAO.getInstance().update(user1.getId(), user1, em);
 		UserDAO.getInstance().update(user2.getId(), user2, em);
 		UserDAO.getInstance().update(user3.getId(), user3, em);
@@ -231,10 +231,10 @@ public class ServiceTest {
 		UserDAO.getInstance().update(user9.getId(), user9, em);
 		UserDAO.getInstance().update(user10.getId(), user10, em);
 	} 
-	
+
 	@AfterClass
 	public static void closeEntityManager() {
-		
+
 		em.getTransaction( ).begin( );	
 		em.createNamedQuery(User.DELETE_TABLE).executeUpdate();
 		em.createNamedQuery(Work.DELETE_TABLE).executeUpdate();
@@ -242,38 +242,48 @@ public class ServiceTest {
 		em.createNamedQuery(KeyWord.DELETE_TABLE).executeUpdate();
 		em.createNamedQuery(Role.DELETE_TABLE).executeUpdate();
 		em.getTransaction().commit();
-		
+
 		em.close();
 		emf.close();
 	}
-	
+
 	/**
 	 * Dado el nombre de un trabajo, devolver todos los posibles Evaluadores
 	 */
 	@Test
 	public void findEvaluadores() {
 		List<User> evaluadores = CacicService.findEvaluadores("Javascript para principiantes", em);
-		assertTrue("No encuentra evaluadores", !evaluadores.isEmpty());
+
+		assertTrue("No encuentra evaluadores", !evaluadores.isEmpty() && evaluadores.get(0).getDni() == 6354852);
 	}
-	
+
 	/**
-	 * Dado un usuario devolver toda su información
+	 * Dado un usuario devolver toda su informacion
 	 */
 	@Test
 	public void getUserData() {
 		String userData = CacicService.getUserData(31156181, em);
 		assertTrue("Usuario no encontrado", userData != null);
 	}
-	
+
+	/**
+	 * Dado un trabajo devolver toda su informacion
+	 */
+	@Test
+	public void geWorkData() {
+		String workData = CacicService.getWorkData("Javascript para principiantes", em);
+		assertTrue("Trabajo no encontrado", workData != null);
+	}
+
 	/**
 	 * Dado un evaluador, retornar todos sus trabajos asignados.
 	 */
 	@Test
 	public void getWorksByEvaluador() {
-		List<Work> works = CacicService.getArticlesByEvaluador(31156181, em);
-		assertTrue("El usuario no tiene Trabajos", !works.isEmpty());
+		List<Work> works = CacicService.getWorksByEvaluador(31156181, em);
+		assertTrue("El usuario no tiene Trabajos", !works.isEmpty() && works.get(0).getName() == "Como armar una Red");
 	}
-	
+
 	/**
 	 * Dado un Revisor/Evaluador y un rango de fechas, retornar todas sus revisiones(Work con reviewed != null)
 	 */
@@ -294,10 +304,10 @@ public class ServiceTest {
 		cal.set(Calendar.DAY_OF_MONTH, 23);
 		Date reviewed = cal.getTime();
 		userTest.setWorkAsReviewed(work, reviewed);
-			
+
 		WorkDAO.getInstance().update(work.getId(), work, em);
 		UserDAO.getInstance().update(userTest.getId(), userTest, em);	
-		
+
 		cal.set(Calendar.YEAR, 2010);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 01);
@@ -306,9 +316,29 @@ public class ServiceTest {
 		cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
 		cal.set(Calendar.DAY_OF_MONTH, 30);
 		Date end = cal.getTime();
-		
+
 		List<Work> works = CacicService.getWorksByEvaluadorRangeDate(userTest.getDni(), start, end, em);
-		System.out.println("wooooo:" + works);
-		assertTrue("El usuario no tiene Trabajos en ese rango de fechas", !works.isEmpty());
+		assertTrue("El usuario no tiene Trabajos en ese rango de fechas", !works.isEmpty() && works.get(0).getName() == "Por que Micro Servicios?");
 	}
+
+	/**
+	 * Dado un autor, retornar todos sus trabajos.
+	 */
+	@Test
+	public void getWorksByAuthor() {
+		List<Work> works = CacicService.getWorksByAuthor(31156181, em);
+		assertTrue("El usuario/autor no tiene Trabajos", !works.isEmpty());
+	}
+
+	/**
+	 * Dado un usuario, retornar todos sus trabajos filtrados por una palabra clave.
+	 */
+	@Test
+	public void getWorksByUserAndCategory() {
+
+		List<Work> works = CacicService.getWorksByUserAndCategory(31156181, "Javascript", em);
+
+		assertTrue("El usuario/autor no tiene Trabajos", !works.isEmpty() && works.get(0).getName() == "Javascript para principiantes");
+	}
+
 }

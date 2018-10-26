@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import entities.User;
 import entities.Work;
 
 public class WorkDAO implements DAO<Work,Integer> {
@@ -69,7 +70,7 @@ public class WorkDAO implements DAO<Work,Integer> {
 	}
 	
 	/**
-	 * Obtener todos los Articulos que todavía NO han sido revisados
+	 * Obtener todos los Trabajos que todavia NO han sido revisados
 	 * @param entityManager
 	 * @return
 	 */
@@ -80,7 +81,7 @@ public class WorkDAO implements DAO<Work,Integer> {
 	}
 	
 	/**
-	 * Obtener todos los Articulos que han sido revisados
+	 * Obtener todos los Trabajos que han sido revisados
 	 * @param entityManager
 	 * @return
 	 */
@@ -89,4 +90,5 @@ public class WorkDAO implements DAO<Work,Integer> {
 		List<Work> works = q.getResultList();
 		return works;
 	}
+	
 }
