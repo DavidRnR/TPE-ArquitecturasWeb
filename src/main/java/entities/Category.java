@@ -64,5 +64,10 @@ public abstract class Category {
 		this.articles = articles;
 	}
 	
+	@Override
+	public String toString () {
+		return this.name;
+	}
+	
 	public abstract boolean containsKeyWordsNeeded (List<KeyWord> artKw, List<KeyWord> userKw);
 }

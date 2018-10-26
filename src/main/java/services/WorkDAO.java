@@ -9,44 +9,51 @@ import entities.Work;
 
 public class WorkDAO implements DAO<Work,Integer> {
 
-	private static WorkDAO daoArticle;
+	private static WorkDAO daoWork;
 
 	private WorkDAO(){}{
 
 	}
 
 	public static WorkDAO getInstance() {
-		if(daoArticle == null)
-			daoArticle = new WorkDAO();
-		return daoArticle;
+		if(daoWork == null)
+			daoWork = new WorkDAO();
+		return daoWork;
 	}
 
 	@Override
-	public Work persist(Work article, EntityManager entityManager) {
+	public Work persist(Work work, EntityManager entityManager) {
 		entityManager.getTransaction().begin();
-		entityManager.persist(article);
+		entityManager.persist(work);
 		entityManager.getTransaction().commit();
 
-		return article;
+		return work;
 	}
 
 	@Override
-	public Work update(Integer id, Work article, EntityManager entityManager) {
-		// TODO Auto-generated method stub
+	public Work update(Integer id, Work work, EntityManager entityManager) {
+		Work wo = entityManager.find(Work.class, id);
+		
+		if(wo != null) {
+			entityManager.getTransaction().begin();
+			entityManager.persist(work);
+			entityManager.getTransaction().commit();
+			return work;
+		}
 		return null;
 	}
 
 	@Override
 	public Work findById(Integer id, EntityManager entityManager) {
-		Work article = entityManager.find(Work.class, id);
-		return article;
+		Work work = entityManager.find(Work.class, id);
+		return work;
 	}
 
 	@Override
 	public List<Work> findAll(EntityManager entityManager) {
 		Query q = entityManager.createNamedQuery(Work.FIND_ALL);
-		List<Work> articles = q.getResultList();
-		return articles;
+		List<Work> works = q.getResultList();
+		return works;
 	}
 
 	@Override
@@ -59,5 +66,27 @@ public class WorkDAO implements DAO<Work,Integer> {
 		Query q = entityManager.createNamedQuery(Work.FIND_BY_NAME);
 		q.setParameter(1, name);
 		return (Work) q.getSingleResult();
+	}
+	
+	/**
+	 * Obtener todos los Articulos que todavía NO han sido revisados
+	 * @param entityManager
+	 * @return
+	 */
+	public List<Work> findAllNoReviewed(EntityManager entityManager) {
+		Query q = entityManager.createNamedQuery(Work.FIND_ALL_NO_REVIEWED);
+		List<Work> works = q.getResultList();
+		return works;
+	}
+	
+	/**
+	 * Obtener todos los Articulos que han sido revisados
+	 * @param entityManager
+	 * @return
+	 */
+	public List<Work> findAllReviewed(EntityManager entityManager) {
+		Query q = entityManager.createNamedQuery(Work.FIND_ALL_REVIEWED);
+		List<Work> works = q.getResultList();
+		return works;
 	}
 }

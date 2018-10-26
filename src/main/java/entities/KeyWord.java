@@ -80,4 +80,9 @@ public class KeyWord {
 	public void setArticles(List<Work> articles) {
 		this.articles = articles;
 	}
+	
+	@Override
+	public String toString () {
+		return this.word;
+	}
 }

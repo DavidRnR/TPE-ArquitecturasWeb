@@ -215,7 +215,6 @@ public class ServiceTest {
 		user3.addWork(work2);
 		user4.addWork(work5);
 		user6.addWork(work3);
-		user8.addWork(work10);
 		user9.addWork(work3);
 		user9.addWork(work9);
 		user10.addWork(work8);
@@ -270,8 +269,46 @@ public class ServiceTest {
 	 * Dado un evaluador, retornar todos sus trabajos asignados.
 	 */
 	@Test
-	public void getArticlesByEvaluador() {
+	public void getWorksByEvaluador() {
 		List<Work> works = CacicService.getArticlesByEvaluador(31156181, em);
-		assertTrue("El usuario no tiene Articulos", !works.isEmpty());
+		assertTrue("El usuario no tiene Trabajos", !works.isEmpty());
+	}
+	
+	/**
+	 * Dado un Revisor/Evaluador y un rango de fechas, retornar todas sus revisiones(Work con reviewed != null)
+	 */
+	@Test
+	public void getWorksByEvaluadorRangeDate() {
+
+		// Obtengo un usuario y un trabajo
+		User userTest = UserDAO.getInstance().findByDni(31156181, em);
+		Work work = WorkDAO.getInstance().findByName("Por que Micro Servicios?", em);
+
+		// Le agrego un Trabajo al Evaluador/Usuario para revisar
+		userTest.addWorkRev(work);
+
+		// Seteo el Trabajo como revisado el 23 de Junio del 2018
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.JUNE);
+		cal.set(Calendar.DAY_OF_MONTH, 23);
+		Date reviewed = cal.getTime();
+		userTest.setWorkAsReviewed(work, reviewed);
+			
+		WorkDAO.getInstance().update(work.getId(), work, em);
+		UserDAO.getInstance().update(userTest.getId(), userTest, em);	
+		
+		cal.set(Calendar.YEAR, 2010);
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+		Date start = cal.getTime();
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
+		cal.set(Calendar.DAY_OF_MONTH, 30);
+		Date end = cal.getTime();
+		
+		List<Work> works = CacicService.getWorksByEvaluadorRangeDate(userTest.getDni(), start, end, em);
+		System.out.println("wooooo:" + works);
+		assertTrue("El usuario no tiene Trabajos en ese rango de fechas", !works.isEmpty());
 	}
 }

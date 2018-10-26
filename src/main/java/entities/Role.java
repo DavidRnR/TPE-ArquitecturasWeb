@@ -47,6 +47,10 @@ public class Role {
 		return this.getName() == "evaluador";
 	}
 	
+	public boolean isAuthor () {
+		return this.getName() == "autor";
+	}
+	
 	@Override
 	public String toString () {
 		return this.name;

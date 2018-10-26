@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -17,7 +18,7 @@ import org.hibernate.annotations.NamedQuery;
 @NamedQuery(name = User.FIND_BY_ID, query="SELECT u FROM User u WHERE u.id = ?1")
 @NamedQuery(name = User.FIND_BY_DNI, query="SELECT u FROM User u WHERE u.dni = ?1")
 @NamedQuery(name = User.FIND_BY_EMAIL, query="SELECT u FROM User u WHERE u.email = ?1")
-@NamedQuery(name = User.FIND_EVALUADORES, query="SELECT u FROM User u JOIN u.roles r WHERE r.name = 'evaluador'") 
+@NamedQuery(name = User.FIND_EVALUADORES, query="SELECT u FROM User u JOIN u.roles r WHERE r.name = 'evaluador'")
 @NamedQuery(name = User.DELETE_TABLE, query="DELETE FROM User u") 
 
 @Entity
@@ -30,9 +31,9 @@ public class User {
 	public static final String FIND_BY_EMAIL = "User.findByEmail";
 	public static final String FIND_EVALUADORES = "User.findEvaluadores";
 	public static final String DELETE_TABLE = "User.deleteTable";
-	
+
 	private static final int MAX_ART_REV = 3;
-	
+
 	@Id 
 	@GeneratedValue
 	private int id;
@@ -41,7 +42,7 @@ public class User {
 	private String last_name;
 	private String email;
 	private boolean expert;
-	
+
 	@ManyToMany
 	private List<Role> roles;
 	@ManyToMany
@@ -49,7 +50,7 @@ public class User {
 	@ManyToMany
 	private List<Work> works;
 	@ManyToMany
-	@JoinTable(name = "User_Rev_Work")
+	@JoinTable(name = "user_rev_work")
 	private List<Work> worksRev;
 
 	public User() {}
@@ -104,15 +105,23 @@ public class User {
 	public boolean removeKeyWord (KeyWord keyWord) {
 		return this.keyWords.remove(keyWord);
 	}
+
+	public boolean setWorkAsReviewed (Work work, Date reviewed) {
+		if(this.worksRev.contains(work)) {
+			work.setReviewed(reviewed);
+			return true;
+		}
+		return false;
+	}
 	
 	public int getId() {
 		return this.id;
 	}
-	
+
 	public long getDni() {
 		return this.dni;
 	}
-	
+
 	public String getFirst_name() {
 		return first_name;
 	}
@@ -164,33 +173,34 @@ public class User {
 	public List<Work> getWorks() {
 		return this.works;
 	}
-	
+
 	public List<Work> getWorksRev() {
 		return this.worksRev;
 	}
-	
+
 	@Override
 	public String toString () {
 		return this.getFirst_name() + " " + this.getLast_name() + "\n" + 
-			   "Email: " + this.email +  "\n" +
-			   "Areas: " + this.keyWords + "\n" + 
-			   "Roles: " + this.roles + "\n" + 
-			   "Articulos: " + this.works + "\n" + 
-			   "Articulos para Revisar: " + this.worksRev +  "\n"  +
-			   "Experto: " + this.expert;
-		
-	}
-	
-	public boolean canReviewArticle (Work work) {
+				"Email: " + this.email +  "\n" +
+				"Areas: " + this.keyWords + "\n" + 
+				"Roles: " + this.roles + "\n" + 
+				"Articulos: " + this.works + "\n" + 
+				"Articulos para Revisar: " + this.worksRev +  "\n"  +
+				"Experto: " + this.expert;
 
-		if(isEvaluador() && !isAuthor(work) && this.worksRev.size() <= MAX_ART_REV && work.containsKeyWordsNeeded(keyWords)) {
+	}
+
+	public boolean canReviewArticle (Work work) {
+		List<Work> worksInReview = getWorksInReview();
+
+		if(isEvaluador() && !isAuthorByWork(work) && worksInReview.size() <= MAX_ART_REV && work.containsKeyWordsNeeded(keyWords)) {
 			return true;
 		}
 
 
 		return false;
 	}
-	
+
 	public boolean isEvaluador () {
 
 		for (Role role : roles) {
@@ -202,12 +212,35 @@ public class User {
 		}
 		return false;
 	}
+
+	public boolean isAuthor () {
+
+		for (Role role : roles) {
+
+			if(role.isAuthor()) {
+				return true;
+			}
+
+		}
+		return false;
+	}
 	
-	public boolean isAuthor (Work work) {
-		
+	public boolean isAuthorByWork (Work work) {
+
 		if(this.works.contains(work)) {
 			return true;
 		}
 		return false;
+	}
+
+	public List<Work> getWorksInReview () {
+		List<Work> worksInReview = new ArrayList<Work>();
+
+		for (Work work : this.worksRev) {
+			if(work.getReviewed() != null) {
+				worksInReview.add(work);
+			}
+		}
+		return worksInReview;
 	}
 }

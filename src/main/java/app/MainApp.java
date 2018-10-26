@@ -42,8 +42,8 @@ public class MainApp {
 		KeyWord keyword6 = new KeyWord("Python");
 		KeyWord keyword7 = new KeyWord("Micro Servicios");
 		KeyWord keyword8 = new KeyWord("Arquitectura");
-	
-	
+
+
 		User user1 = new User(31156181, "David", "Martin", "carlosdavidmartin@gmail.com");
 		user1.addRole(roleAutor);
 		user1.addRole(roleEvaluador);
@@ -86,7 +86,7 @@ public class MainApp {
 		Category category1 = new Articulo("Articulo");
 		Category category2 = new Resumen("Resumen");
 		Category category3 = new Poster("Poster");
-	
+
 
 		Calendar cal = Calendar.getInstance();
 
@@ -106,42 +106,42 @@ public class MainApp {
 		Work article2 = new Work("Micro Servicios y algo mas", category3, dateArt2);
 		article2.addKeyWord(keyword7);
 		article2.addKeyWord(keyword8);
-	
+
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		Date dateArt3 = cal.getTime();
 		Work article3 = new Work("Aprendamos Internet de las Cosas", category2, dateArt3);
 		article3.addKeyWord(keyword2);
-	
+
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 3);
 		Date dateArt4 = cal.getTime();
 		Work article4 = new Work("IOT para principantes", category2, dateArt4);
 		article4.addKeyWord(keyword2);
-		
+
 		cal.set(Calendar.YEAR, 2018);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 6);
 		Date dateArt5 = cal.getTime();
 		Work article5 = new Work("Machine Learning basico", category2, dateArt5);
 		article5.addKeyWord(keyword1);
-		
+
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 18);
 		Date dateArt6 = cal.getTime();
 		Work article6 = new Work("Python y nada mas", category3, dateArt6);
 		article6.addKeyWord(keyword6);
-		
+
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.FEBRUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 22);
 		Date dateArt7 = cal.getTime();
 		Work article7 = new Work("Javascript para principiantes", category3, dateArt7);
 		article7.addKeyWord(keyword5);
-		
+
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.DECEMBER);
 		cal.set(Calendar.DAY_OF_MONTH, 2);
@@ -149,14 +149,14 @@ public class MainApp {
 		Work article8 = new Work("Seguridad Informatica", category1, dateArt8);
 		article8.addKeyWord(keyword3);
 		article8.addKeyWord(keyword4);
-		
+
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 29);
 		Date dateArt9 = cal.getTime();
 		Work article9 = new Work("Como armar una Red", category1, dateArt9);
 		article9.addKeyWord(keyword4);
-				
+
 		cal.set(Calendar.YEAR, 2018);
 		cal.set(Calendar.MONTH, Calendar.APRIL);
 		cal.set(Calendar.DAY_OF_MONTH, 14);
@@ -175,12 +175,12 @@ public class MainApp {
 		KeyWordDAO.getInstance().persist(keyword6, em);
 		KeyWordDAO.getInstance().persist(keyword7, em);
 		KeyWordDAO.getInstance().persist(keyword8, em);
-		
+
 		CategoryDAO.getInstance().persist(category1, em);
 		CategoryDAO.getInstance().persist(category2, em);
 		CategoryDAO.getInstance().persist(category3, em);
-		
-			
+
+
 		UserDAO.getInstance().persist(user1, em);
 		UserDAO.getInstance().persist(user2, em);
 		UserDAO.getInstance().persist(user3, em);
@@ -191,7 +191,7 @@ public class MainApp {
 		UserDAO.getInstance().persist(user8, em);
 		UserDAO.getInstance().persist(user9, em);
 		UserDAO.getInstance().persist(user10, em);
-		
+
 		WorkDAO.getInstance().persist(article1, em);
 		WorkDAO.getInstance().persist(article2, em);
 		WorkDAO.getInstance().persist(article3, em);
@@ -202,7 +202,7 @@ public class MainApp {
 		WorkDAO.getInstance().persist(article8, em);
 		WorkDAO.getInstance().persist(article9, em);
 		WorkDAO.getInstance().persist(article10, em);
-		
+
 		// Autores
 		user1.addWork(article7);
 		user2.addWork(article1);
@@ -210,13 +210,13 @@ public class MainApp {
 		user3.addWork(article2);
 		user4.addWork(article5);
 		user6.addWork(article3);
-		user8.addWork(article10);
+		//		user8.addWork(article10);
 		user9.addWork(article3);
 		user9.addWork(article9);
 		user10.addWork(article8);
-		
+
 		user1.addWorkRev(article9);
-		
+
 		UserDAO.getInstance().update(user1.getId(), user1, em);
 		UserDAO.getInstance().update(user2.getId(), user2, em);
 		UserDAO.getInstance().update(user3.getId(), user3, em);
@@ -225,14 +225,42 @@ public class MainApp {
 		UserDAO.getInstance().update(user8.getId(), user8, em);
 		UserDAO.getInstance().update(user9.getId(), user9, em);
 		UserDAO.getInstance().update(user10.getId(), user10, em);
-		
-//		System.out.println(user1.addArticleRev(article7));
-//		System.out.println("Roles:" + user6.getRoles().toString());
-//		System.out.println("User 6 puede?" + user6.addArticleRev(article9));
-//		System.out.println(user5.addArticleRev(article7));
-//		System.out.println(CacicService.findEvaluadores("Javascript para principiantes", em));
-//		System.out.println(CacicService.findArticlesToEvaluador(31156181, em));
-		System.out.println(CacicService.getArticlesByEvaluador(31156181, em));
+
+		//		System.out.println(user1.addArticleRev(article7));
+		//		System.out.println("Roles:" + user6.getRoles().toString());
+		//		System.out.println("User 6 puede?" + user6.addArticleRev(article9));
+		//		System.out.println(user5.addArticleRev(article7));
+		//		System.out.println(CacicService.findEvaluadores("Javascript para principiantes", em));
+		//		System.out.println(CacicService.findArticlesToEvaluador(31156181, em));
+		//		System.out.println(CacicService.getArticlesByEvaluador(31156181, em));
+
+		// Obtengo un usuario y un trabajo
+		User userTest = UserDAO.getInstance().findByDni(31156181, em);
+		Work work = WorkDAO.getInstance().findByName("Por que Micro Servicios?", em);
+
+		// Le agrego un Trabajo al Evaluador/Usuario para revisar
+		userTest.addWorkRev(work);
+
+		// Seteo el Trabajo como revisado el 23 de Junio del 2018
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.JUNE);
+		cal.set(Calendar.DAY_OF_MONTH, 23);
+		Date reviewed = cal.getTime();
+		userTest.setWorkAsReviewed(work, reviewed);
+
+	
+		WorkDAO.getInstance().update(work.getId(), work, em);
+		UserDAO.getInstance().update(userTest.getId(), userTest, em);
+
+		cal.set(Calendar.YEAR, 2010);
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+		Date start = cal.getTime();
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
+		cal.set(Calendar.DAY_OF_MONTH, 30);
+		Date end = cal.getTime();
+		System.out.println(CacicService.getWorksByEvaluadorRangeDate(31156181, start, end, em));
 		em.close();
 		emf.close();
 	}
