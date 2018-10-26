@@ -18,5 +18,5 @@
     <li>Seleccionar master branch - Click Next - Click Next</li>
     <li>Seleccionar "Import existing Eclipse projects" - Click Next</li>
     <li>Click Finish - Esperar a que se actualicen las librerias Maven</li>
-    <li>Click Run - Run as - JUnit Test</li>
+    <li>Abre el archivo java/main/test/ServiceTest.java Click Run - Run as - JUnit Test</li>
 </ol>
