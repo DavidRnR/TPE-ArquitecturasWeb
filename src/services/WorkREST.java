@@ -12,26 +12,26 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import entities.KeyWord;
+import entities.Work;
 
 
-@Path("/keyword")
-public class KeyWordREST {
+@Path("/work")
+public class WorkREST {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<KeyWord> getAllKeyWords(){
-		return KeyWordDAO.getInstance().findAll();
+	public List<Work> getAllKeyWords(){
+		return WorkDAO.getInstance().findAll();
 	}
 
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public KeyWord getKeyWordById(@PathParam("id") String msg) {
+	public Work getWorkById(@PathParam("id") String msg) {
 		int id = Integer.valueOf(msg);
-		KeyWord keyWord = KeyWordDAO.getInstance().findById(id);
-		if( keyWord != null )
-			return keyWord;
+		Work work = WorkDAO.getInstance().findById(id);
+		if( work != null )
+			return work;
 		else
 			throw new notFound(id);
 	}
@@ -39,24 +39,24 @@ public class KeyWordREST {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createKeyWord(KeyWord keyWord) {
-		KeyWord result = KeyWordDAO.getInstance().persist(keyWord);
+	public Response createWork(Work work) {
+		Work result = WorkDAO.getInstance().persist(work);
 		if(result==null) {
-			throw new ResourseNotCreated(keyWord.getId());
+			throw new ResourseNotCreated(work.getId());
 		}else {
-			return Response.status(201).entity(keyWord).build();
+			return Response.status(201).entity(work).build();
 		}
 	}
 
 	public class notFound extends WebApplicationException {
-		public notFound(int id) {
+		public notFound(long id) {
 			super(Response.status(Response.Status.NOT_FOUND)
-					.entity("Keyword with id "+ id +" not found").type(MediaType.TEXT_PLAIN).build());
+					.entity("Work with id "+ id +" not found").type(MediaType.TEXT_PLAIN).build());
 		}
 	}
 
 	public class ResourseNotCreated extends WebApplicationException {
-		public ResourseNotCreated(int id) {
+		public ResourseNotCreated(long id) {
 			super(Response.status(Response.Status.CONFLICT)
 					.entity("Resourse with id "+ id +" could not created").type(MediaType.TEXT_PLAIN).build());
 		}

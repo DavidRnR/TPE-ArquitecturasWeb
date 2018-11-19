@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
@@ -13,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NamedQuery;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @NamedQuery(name = User.FIND_ALL, query="SELECT u FROM User u")
 @NamedQuery(name = User.FIND_BY_ID, query="SELECT u FROM User u WHERE u.id = ?1")
@@ -44,10 +47,10 @@ public class User {
 	private String last_name;
 	private String email;
 	private boolean expert;
-
-	@ManyToMany
+	
+	@ManyToMany(fetch=FetchType.EAGER)  
 	private List<Role> roles;
-	@ManyToMany
+	@ManyToMany  
 	private List<KeyWord> keyWords;
 	@ManyToMany
 	private List<Work> works;
@@ -123,7 +126,11 @@ public class User {
 	public long getDni() {
 		return this.dni;
 	}
-
+	
+	public void setDni(long dni) {
+		this.dni = dni;
+	}
+	
 	public String getFirst_name() {
 		return first_name;
 	}
@@ -191,7 +198,8 @@ public class User {
 				"Experto: " + this.expert;
 
 	}
-
+	
+	@JsonIgnore
 	public boolean canReviewArticle (Work work) {
 		List<Work> worksInReview = getWorksInReview();
 
@@ -202,7 +210,7 @@ public class User {
 
 		return false;
 	}
-
+	@JsonIgnore
 	public boolean isEvaluador () {
 
 		for (Role role : roles) {
@@ -214,12 +222,12 @@ public class User {
 		}
 		return false;
 	}
-
+	@JsonIgnore
 	public boolean isAuthor () {
 
 		for (Role role : roles) {
 
-			if(role.isAuthor()) {
+			if(role.isAutor()) {
 				return true;
 			}
 
@@ -227,6 +235,7 @@ public class User {
 		return false;
 	}
 	
+	@JsonIgnore
 	public boolean isAuthorByWork (Work work) {
 
 		if(this.works.contains(work)) {
@@ -234,7 +243,8 @@ public class User {
 		}
 		return false;
 	}
-
+	
+	@JsonIgnore
 	public List<Work> getWorksInReview () {
 		List<Work> worksInReview = new ArrayList<Work>();
 

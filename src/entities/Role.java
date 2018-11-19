@@ -1,15 +1,13 @@
 package entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NamedQuery;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @NamedQuery(name = Role.FIND_ALL, query="SELECT r FROM Role r")
 @NamedQuery(name = Role.FIND_BY_ID, query="SELECT r FROM Role r WHERE r.id = ?1")
@@ -28,6 +26,14 @@ public class Role {
 	private int id;
 	private String name;
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public Role() {}
 
 	public Role(String name) {
@@ -43,12 +49,14 @@ public class Role {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public boolean isEvaluador () {
-		return this.getName() == "evaluador";
+		return this.name.equals("evaluador");
 	}
 	
-	public boolean isAuthor () {
-		return this.getName() == "autor";
+	@JsonIgnore
+	public boolean isAutor () {
+		return this.name.equals("autor");
 	}
 	
 	@Override

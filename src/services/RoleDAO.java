@@ -56,7 +56,19 @@ public class RoleDAO implements DAO<Role,Integer> {
 	@Override
 	public boolean delete(Integer id) {
 		EntityManager entityManager = EMF.createEntityManager();
-		// TODO Auto-generated method stub
+		
+		entityManager.getTransaction().begin();
+		entityManager.remove(entityManager.find(Role.class, id));
+		entityManager.getTransaction().commit();
+		Role role = entityManager.find(Role.class, id);
+		entityManager.close();
+		
+		
+		if(role == null) {
+			return true;
+			
+		}
+		
 		return false;
 	}
 

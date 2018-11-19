@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NamedQuery;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @NamedQuery(name = KeyWord.FIND_ALL, query="SELECT kw FROM KeyWord kw")
 @NamedQuery(name = KeyWord.FIND_BY_ID, query="SELECT kw FROM KeyWord kw WHERE kw.id = ?1")
 @NamedQuery(name = KeyWord.DELETE_TABLE, query="DELETE FROM KeyWord k") 
@@ -28,8 +30,10 @@ public class KeyWord {
 	private int id;
 	private String word;
 	
+	@JsonIgnore
 	@ManyToMany
 	private List<User> users;
+	@JsonIgnore
 	@ManyToMany
 	private List<Work> articles;
 	

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import entities.Work;
+import entities.Role;
 import entities.User;
 
 public class UserDAO implements DAO<User,Integer>{
@@ -33,17 +34,22 @@ public class UserDAO implements DAO<User,Integer>{
 	}
 
 	@Override
-	public User update(Integer id, User user) {
-		EntityManager entityManager = EMF.createEntityManager();
-		User us = entityManager.find(User.class, id);
-		
-		if(us != null) {
+	public User update(Integer id, User userUpdate) {
+		EntityManager entityManager=EMF.createEntityManager();
+				 
+		User user = entityManager.find(User.class, id);
+
+		if(user!=null) {
 			entityManager.getTransaction().begin();
+			user.setDni(userUpdate.getDni());
+			user.setFirst_name(userUpdate.getFirst_name());
+			user.setLast_name(userUpdate.getLast_name());
+			user.setEmail(userUpdate.getEmail());
 			entityManager.persist(user);
 			entityManager.getTransaction().commit();
+			entityManager.close();
 			return user;
 		}
-		
 		return null;
 	}
 
@@ -63,20 +69,24 @@ public class UserDAO implements DAO<User,Integer>{
 	}
 
 	@Override
-	public boolean delete(Integer dni) {
+	public boolean delete(Integer id) {
 		EntityManager entityManager = EMF.createEntityManager();
-		User user = this.findById(dni);
-		if(user != null) {
-			entityManager.getTransaction().begin();
-			entityManager.remove(user);
-			entityManager.getTransaction().commit();
+
+		entityManager.getTransaction().begin();
+		entityManager.remove(entityManager.find(User.class, id));
+		entityManager.getTransaction().commit();
+		User user = entityManager.find(User.class, id);
+		entityManager.close();
+
+
+		if(user == null) {
 			return true;
+
 		}
-		else {
-			return false;
-		}
+
+		return false;
 	}
-	
+
 	public boolean addWork (long dni, Work work) {
 		EntityManager entityManager = EMF.createEntityManager();
 		User user = this.findByDni(dni);
@@ -91,7 +101,7 @@ public class UserDAO implements DAO<User,Integer>{
 			return false;
 		}
 	}
-	
+
 	public boolean addArticleToReview (long dni, Work work) {
 		EntityManager entityManager = EMF.createEntityManager();
 		User user = this.findByDni(dni);
@@ -105,21 +115,21 @@ public class UserDAO implements DAO<User,Integer>{
 			return false;
 		}
 	}
-	
+
 	public List<User> getEvaludoares () {
 		EntityManager entityManager = EMF.createEntityManager();
 		Query q = entityManager.createNamedQuery(User.FIND_EVALUADORES);
 		List<User> users = q.getResultList();
 		return users;
 	}
-	
+
 	public User findByDni(long dni) {
 		EntityManager entityManager = EMF.createEntityManager();
 		Query q = entityManager.createNamedQuery(User.FIND_BY_DNI);
 		q.setParameter(1, dni);
 		return (User) q.getSingleResult();
 	}
-	
+
 	/**
 	 * Obtener todos los Trabajos por Usuario y Palabra Clave (KeyWord)
 	 * @param entityManager
