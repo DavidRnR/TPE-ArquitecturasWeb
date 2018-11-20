@@ -1,5 +1,6 @@
 package services;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -10,9 +11,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import entities.User;
 import entities.Work;
@@ -80,6 +84,17 @@ public class WorkREST {
 	public List<Work> getWorksByAutor(@PathParam("dni") String msg) {
 		long dni = Integer.valueOf(msg);
 		return CacicService.getWorksByAuthor(dni);
+	}
+	
+	@GET
+	@Path("/getWorksReviewdByEvaluador/{dni}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Work> getWorksReviewdByEvaluador(@PathParam("dni") String msg, @QueryParam("start_date") String start, @QueryParam("end_date") String end) {
+		long dni = Integer.valueOf(msg);
+		Date startDate = new Date(start);
+		System.out.println(start);
+		Date endDate = new Date(end);
+		return CacicService.getWorksByEvaluadorRangeDate(dni, startDate, endDate);
 	}
 	
 	public class notFound extends WebApplicationException {

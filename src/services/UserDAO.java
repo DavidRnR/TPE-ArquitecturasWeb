@@ -150,7 +150,7 @@ public class UserDAO implements DAO<User,Integer>{
 		EntityManager entityManager = EMF.createEntityManager();
 		Query q = entityManager.createNamedQuery(User.FIND_BY_DNI);
 		q.setParameter(1, dni);
-		User user = (User) q.getSingleResult();
+		User user = (User) q.getResultList().stream().findFirst().orElse(null);
 		return user;
 	}
 

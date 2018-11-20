@@ -30,7 +30,7 @@ public class UserRESTTest {
 	public void UserTest() throws ClientProtocolException, IOException {
 		createUser();
 		listUsers();
-//		updateUser();
+		updateUser();
 //		deleteUser();
 	}
 
