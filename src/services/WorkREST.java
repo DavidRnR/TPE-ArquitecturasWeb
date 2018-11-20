@@ -74,6 +74,14 @@ public class WorkREST {
 		throw new notFound(id);
 	}
 	
+	@GET
+	@Path("/getWorksbyAutor/{dni}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Work> getWorksByAutor(@PathParam("dni") String msg) {
+		long dni = Integer.valueOf(msg);
+		return CacicService.getWorksByAuthor(dni);
+	}
+	
 	public class notFound extends WebApplicationException {
 		public notFound(long id) {
 			super(Response.status(Response.Status.NOT_FOUND)
