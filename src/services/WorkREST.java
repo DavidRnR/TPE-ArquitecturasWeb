@@ -3,8 +3,10 @@ package services;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -12,7 +14,9 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import entities.User;
 import entities.Work;
+import services.UserREST.notFound;
 
 
 @Path("/work")
@@ -40,14 +44,36 @@ public class WorkREST {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createWork(Work work) {
+
 		Work result = WorkDAO.getInstance().persist(work);
 		if(result==null) {
 			throw new ResourseNotCreated(work.getId());
 		}else {
 			return Response.status(201).entity(work).build();
 		}
+
 	}
 
+	@PUT
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateUser(@PathParam("id") int id, Work work) {
+		Work result = WorkDAO.getInstance().update(id, work);
+		if(result!=null) return Response.status(201).entity(result).build();
+		throw new notFound(id);
+	}
+	
+	@DELETE
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteWork(@PathParam("id") Integer id) {
+		boolean result= WorkDAO.getInstance().delete(id);
+		if(result) return Response.status(201).build();
+		
+		throw new notFound(id);
+	}
+	
 	public class notFound extends WebApplicationException {
 		public notFound(long id) {
 			super(Response.status(Response.Status.NOT_FOUND)

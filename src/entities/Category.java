@@ -5,6 +5,10 @@ import java.util.List;
 
 import org.hibernate.annotations.NamedQuery;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,6 +20,15 @@ import javax.persistence.Table;
 @NamedQuery(name = Category.FIND_BY_NAME, query="SELECT c FROM Category c WHERE c.name = ?1")
 @NamedQuery(name = Category.DELETE_TABLE, query="DELETE FROM Category c") 
 
+@JsonTypeInfo(
+		  use = JsonTypeInfo.Id.NAME, 
+		  include = JsonTypeInfo.As.PROPERTY, 
+		  property = "type")
+		@JsonSubTypes({ 
+		  @Type(value = Articulo.class, name = "articulo"), 
+		  @Type(value = Poster.class, name = "poster"),
+		  @Type(value = Resumen.class, name = "resumen")
+		})
 @Entity
 @Table(name="Category")
 public abstract class Category {
