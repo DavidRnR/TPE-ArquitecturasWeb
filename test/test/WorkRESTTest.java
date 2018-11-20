@@ -30,8 +30,8 @@ public class WorkRESTTest {
 	public void UserTest() throws ClientProtocolException, IOException {
 		createWork();
 		listWorks();
-//		updateUser();
-//		deleteUser();
+		updateWork();
+		deleteWork();
 	}
 
 	private String getResult(HttpResponse response) throws IOException {
@@ -51,14 +51,14 @@ public class WorkRESTTest {
 
 	public void createWork() throws ClientProtocolException, IOException {
 
-		String url = BASE_URL + "/user";
+		String url = BASE_URL + "/work";
 
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode jsonObject = mapper.createObjectNode();
 		jsonObject.put("name", "Mas alla de la gran Network - Seg parte");
 		jsonObject.put("created", "2018-11-04");
-		jsonObject.put("category", 1);
-		jsonObject.put("keyWords", "[5,6]");
+		jsonObject.put("category", "articulo");
+		jsonObject.put("keyWords", "[{id:5}]");
 		String jsonString = jsonObject.toString();
 	
 		HttpPost post = new HttpPost(url);
@@ -89,15 +89,14 @@ public class WorkRESTTest {
 
 	}
 	
-	public void updateUser() throws ClientProtocolException, IOException {
+	public void updateWork() throws ClientProtocolException, IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode jsonObject = mapper.createObjectNode();
-		jsonObject.put("first_name", "Test");
-		jsonObject.put("last_name", "JUnit");
+		jsonObject.put("name", "Junit Test");
 		String jsonString = jsonObject.toString();
 
-		String url = BASE_URL + "/user/1";
+		String url = BASE_URL + "/work/24";
 		HttpPut request = new HttpPut(url);
 		request.setEntity(new StringEntity(jsonString, ContentType.APPLICATION_JSON));
 		HttpResponse response = client.execute(request);
@@ -112,9 +111,9 @@ public class WorkRESTTest {
 
 	}
 	
-	public void deleteUser() throws ClientProtocolException, IOException {
+	public void deleteWork() throws ClientProtocolException, IOException {
 
-		String url = BASE_URL + "/user/1";
+		String url = BASE_URL + "/work/24";
 		
 		HttpDelete request = new HttpDelete(url);
 		HttpResponse response = client.execute(request);

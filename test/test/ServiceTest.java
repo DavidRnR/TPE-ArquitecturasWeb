@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import entities.User;
 import services.WorkDAO;
 import services.CacicService;
 import services.CategoryDAO;
+import services.EMF;
 import services.KeyWordDAO;
 import services.RoleDAO;
 import services.UserDAO;
@@ -82,7 +85,7 @@ public class ServiceTest {
 		user5.addKeyWord(keyword6);
 
 
-		Category category1 = new Articulo("Artículo");
+		Category category1 = new Articulo("Articulo");
 		Category category2 = new Resumen("Resumen");
 		Category category3 = new Poster("Poster");
 
@@ -245,7 +248,6 @@ public class ServiceTest {
 	@Test
 	public void findEvaluadores() {
 		List<User> evaluadores = CacicService.findEvaluadores("Javascript para principiantes");
-
 		assertTrue("No encuentra evaluadores", !evaluadores.isEmpty() && evaluadores.get(0).getDni() == 6354852);
 	}
 
@@ -262,7 +264,7 @@ public class ServiceTest {
 	 * Dado un trabajo devolver toda su informacion
 	 */
 	@Test
-	public void geWorkData() {
+	public void getWorkData() {
 		String workData = CacicService.getWorkData("Javascript para principiantes");
 		assertTrue("Trabajo no encontrado", workData != null);
 	}

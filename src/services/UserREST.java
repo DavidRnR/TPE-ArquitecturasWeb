@@ -56,7 +56,7 @@ public class UserREST {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateUser(@PathParam("id") int id, User user) {
-		User result = UserDAO.getInstance().update(id, user);
+		User result = UserDAO.getInstance().updateREST(id, user);
 		if(result!=null) return Response.status(201).entity(result).build();
 		throw new notFound(id);
 	}

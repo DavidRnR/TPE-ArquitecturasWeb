@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import entities.Work;
 import entities.User;
 
@@ -22,7 +20,7 @@ public class CacicService {
 		Work work = WorkDAO.getInstance().findByName(name);
 
 		if(work != null) {
-			List<User> evaluadores = UserDAO.getInstance().getEvaludoares();
+			List<User> evaluadores = UserDAO.getInstance().getEvaluadores();
 			for (User ev : evaluadores) {
 				if(ev.canReviewArticle(work)) {
 					result.add(ev);

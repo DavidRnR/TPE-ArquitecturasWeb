@@ -48,9 +48,9 @@ public class User {
 	private String email;
 	private boolean expert;
 	
-	@ManyToMany(fetch=FetchType.EAGER)  
+	@ManyToMany 
 	private List<Role> roles;
-	@ManyToMany  
+	@ManyToMany
 	private List<KeyWord> keyWords;
 	@ManyToMany
 	private List<Work> works;

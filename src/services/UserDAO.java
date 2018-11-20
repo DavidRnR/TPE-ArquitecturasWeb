@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import entities.Work;
-import entities.Role;
 import entities.User;
 
 public class UserDAO implements DAO<User,Integer>{
@@ -29,30 +28,50 @@ public class UserDAO implements DAO<User,Integer>{
 		entityManager.getTransaction().begin();
 		entityManager.persist(user);
 		entityManager.getTransaction().commit();
-
+		entityManager.close();
 		return user;
 	}
 
 	@Override
-	public User update(Integer id, User userUpdate) {
-		EntityManager entityManager=EMF.createEntityManager();
+	public User update(Integer id, User user) {
+		EntityManager entityManager = EMF.createEntityManager();
 				 
-		User user = entityManager.find(User.class, id);
-
-		if(user!=null) {
+		User us = entityManager.find(User.class, id);
+		
+		if(us != null) {
 			entityManager.getTransaction().begin();
-			user.setDni(userUpdate.getDni());
-			user.setFirst_name(userUpdate.getFirst_name());
-			user.setLast_name(userUpdate.getLast_name());
-			user.setEmail(userUpdate.getEmail());
-			entityManager.persist(user);
+			entityManager.merge(user);
 			entityManager.getTransaction().commit();
 			entityManager.close();
 			return user;
 		}
+		
 		return null;
 	}
 
+	public User updateREST (Integer id, User user) {
+		EntityManager entityManager = EMF.createEntityManager();
+				 
+		User us = entityManager.find(User.class, id);
+		
+		if(us != null) {
+			entityManager.getTransaction().begin();
+			if(user.getFirst_name() != null && user.getFirst_name() != "") {
+				us.setFirst_name(user.getFirst_name());				
+			}
+			if(user.getLast_name() != null && user.getLast_name() != "") {
+				us.setLast_name(user.getLast_name());			
+			}
+		
+			entityManager.merge(us);
+			entityManager.getTransaction().commit();
+			entityManager.close();
+			return us;
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public User findById(Integer id) {
 		EntityManager entityManager = EMF.createEntityManager();
@@ -65,6 +84,7 @@ public class UserDAO implements DAO<User,Integer>{
 		EntityManager entityManager = EMF.createEntityManager();
 		Query q = entityManager.createNamedQuery(User.FIND_ALL);
 		List<User> users = q.getResultList();
+		entityManager.close();
 		return users;
 	}
 
@@ -95,6 +115,7 @@ public class UserDAO implements DAO<User,Integer>{
 			user.addWork(work);
 			entityManager.persist(user);
 			entityManager.getTransaction().commit();
+			entityManager.close();
 			return true;
 		}
 		else {
@@ -109,6 +130,7 @@ public class UserDAO implements DAO<User,Integer>{
 			entityManager.getTransaction().begin();
 			entityManager.persist(user);
 			entityManager.getTransaction().commit();
+			entityManager.close();
 			return true;
 		}
 		else {
@@ -116,10 +138,11 @@ public class UserDAO implements DAO<User,Integer>{
 		}
 	}
 
-	public List<User> getEvaludoares () {
+	public List<User> getEvaluadores () {
 		EntityManager entityManager = EMF.createEntityManager();
 		Query q = entityManager.createNamedQuery(User.FIND_EVALUADORES);
 		List<User> users = q.getResultList();
+		entityManager.close();
 		return users;
 	}
 
@@ -127,7 +150,8 @@ public class UserDAO implements DAO<User,Integer>{
 		EntityManager entityManager = EMF.createEntityManager();
 		Query q = entityManager.createNamedQuery(User.FIND_BY_DNI);
 		q.setParameter(1, dni);
-		return (User) q.getSingleResult();
+		User user = (User) q.getSingleResult();
+		return user;
 	}
 
 	/**

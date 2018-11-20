@@ -28,13 +28,12 @@ public class KeyWordDAO implements DAO<KeyWord,Integer> {
 		entityManager.getTransaction().begin();
 		entityManager.persist(keyword);
 		entityManager.getTransaction().commit();
-
+		entityManager.close();
 		return keyword;
 	}
 
 	@Override
 	public KeyWord update(Integer id, KeyWord keyword) {
-		EntityManager entityManager = EMF.createEntityManager();
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -56,7 +55,6 @@ public class KeyWordDAO implements DAO<KeyWord,Integer> {
 
 	@Override
 	public boolean delete(Integer id) {
-		EntityManager entityManager = EMF.createEntityManager();
 		// TODO Auto-generated method stub
 		return false;
 	}

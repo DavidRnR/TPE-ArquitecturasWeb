@@ -27,13 +27,12 @@ public class RoleDAO implements DAO<Role,Integer> {
 		entityManager.getTransaction().begin();
 		entityManager.persist(role);
 		entityManager.getTransaction().commit();
-
+		entityManager.close();
 		return role;
 	}
 
 	@Override
 	public Role update(Integer id, Role role) {
-		EntityManager entityManager = EMF.createEntityManager();
 		// TODO Auto-generated method stub
 		return null;
 	}

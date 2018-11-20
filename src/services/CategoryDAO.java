@@ -28,14 +28,13 @@ public class CategoryDAO implements DAO<Category, Integer> {
 		entityManager.getTransaction().begin();
 		entityManager.persist(category);
 		entityManager.getTransaction().commit();
-
+		entityManager.close();
 		return category;
 	}
 
 
 	@Override
 	public Category update(Integer id, Category category) {
-		EntityManager entityManager = EMF.createEntityManager();
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -66,6 +65,7 @@ public class CategoryDAO implements DAO<Category, Integer> {
 			entityManager.getTransaction().begin();
 			entityManager.remove(category);
 			entityManager.getTransaction().commit();
+			entityManager.close();
 			return true;
 		}
 		else {

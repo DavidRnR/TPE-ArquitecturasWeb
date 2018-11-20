@@ -5,13 +5,16 @@ import java.util.List;
 
 import org.hibernate.annotations.NamedQuery;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,29 +24,31 @@ import javax.persistence.Table;
 @NamedQuery(name = Category.DELETE_TABLE, query="DELETE FROM Category c") 
 
 @JsonTypeInfo(
-		  use = JsonTypeInfo.Id.NAME, 
-		  include = JsonTypeInfo.As.PROPERTY, 
-		  property = "type")
-		@JsonSubTypes({ 
-		  @Type(value = Articulo.class, name = "articulo"), 
-		  @Type(value = Poster.class, name = "poster"),
-		  @Type(value = Resumen.class, name = "resumen")
-		})
+		use = JsonTypeInfo.Id.NAME, 
+		include = JsonTypeInfo.As.PROPERTY, 
+		property = "type")
+@JsonSubTypes({ 
+	@Type(value = Articulo.class, name = "articulo"), 
+	@Type(value = Poster.class, name = "poster"),
+	@Type(value = Resumen.class, name = "resumen")
+})
 @Entity
 @Table(name="Category")
 public abstract class Category {
-	
+
 	public static final String FIND_ALL = "Category.findAll";
 	public static final String FIND_BY_ID = "Category.findById";
 	public static final String FIND_BY_NAME = "Category.findByName";
 	public static final String DELETE_TABLE = "Category.deleteTable";
-	
+
 	@Id
 	@GeneratedValue
 	private int id;
 	private String name;
 
+	@JsonIgnore
 	@OneToMany
+	@JoinColumn(name = "category_id")
 	private List<Work> articles;
 
 	public Category() {}
@@ -60,7 +65,7 @@ public abstract class Category {
 	public boolean removeArticle (Work article) {
 		return this.articles.remove(article);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -76,11 +81,11 @@ public abstract class Category {
 	public void setArticles(List<Work> articles) {
 		this.articles = articles;
 	}
-	
+
 	@Override
 	public String toString () {
 		return this.name;
 	}
-	
+
 	public abstract boolean containsKeyWordsNeeded (List<KeyWord> artKw, List<KeyWord> userKw);
 }

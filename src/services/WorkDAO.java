@@ -28,7 +28,7 @@ public class WorkDAO implements DAO<Work,Integer> {
 		entityManager.getTransaction().begin();
 		entityManager.persist(work);
 		entityManager.getTransaction().commit();
-
+		entityManager.close();
 		return work;
 	}
 
@@ -41,6 +41,7 @@ public class WorkDAO implements DAO<Work,Integer> {
 			entityManager.getTransaction().begin();
 			entityManager.persist(work);
 			entityManager.getTransaction().commit();
+			entityManager.close();
 			return work;
 		}
 		return null;
@@ -63,7 +64,6 @@ public class WorkDAO implements DAO<Work,Integer> {
 
 	@Override
 	public boolean delete(Integer id) {
-		EntityManager entityManager = EMF.createEntityManager();
 		// TODO Auto-generated method stub
 		return false;
 	}
