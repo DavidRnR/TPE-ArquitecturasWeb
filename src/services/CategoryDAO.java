@@ -44,6 +44,7 @@ public class CategoryDAO implements DAO<Category, Integer> {
 	public Category findById(Integer id) {
 		EntityManager entityManager = EMF.createEntityManager();
 		Category category = entityManager.find(Category.class, id);
+		entityManager.close();
 		return category;
 	}
 

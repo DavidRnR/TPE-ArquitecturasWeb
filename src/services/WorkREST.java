@@ -1,7 +1,16 @@
 package services;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -16,8 +25,13 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import entities.Category;
+import entities.KeyWord;
 import entities.User;
 import entities.Work;
 import services.UserREST.notFound;
@@ -47,15 +61,32 @@ public class WorkREST {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createWork(Work work) {
-
+	public Response createWork(ObjectNode workJson) throws ParseException, JsonProcessingException, IOException {
+		Work work = new Work();
+		work.setName(workJson.get("name").asText());
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+		LocalDate localDate = LocalDate.parse(workJson.get("created").asText(), formatter);
+		Date workFinalDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		work.setCreated(workFinalDate);
+		
+		Category cat = CategoryDAO.getInstance().findById(workJson.get("category_id").asInt());
+		work.setCategory(cat);
+		
+		List<Integer> keywordsId = new ObjectMapper().convertValue(workJson.get("keyWords"), ArrayList.class);
+		List<KeyWord> keyWords = new ArrayList<KeyWord>();
+		
+		for (Integer id : keywordsId) {
+			keyWords.add(KeyWordDAO.getInstance().findById(id));
+		}
+		work.setKeyWords(keyWords);
+		
 		Work result = WorkDAO.getInstance().persist(work);
 		if(result==null) {
 			throw new ResourseNotCreated(work.getId());
 		}else {
 			return Response.status(201).entity(work).build();
 		}
-
 	}
 
 	@PUT
