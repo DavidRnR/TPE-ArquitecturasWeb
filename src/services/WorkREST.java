@@ -1,9 +1,7 @@
 package services;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -26,16 +24,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import entities.Category;
 import entities.KeyWord;
-import entities.User;
 import entities.Work;
-import services.UserREST.notFound;
-
 
 @Path("/work")
 public class WorkREST {
@@ -123,7 +117,6 @@ public class WorkREST {
 	public List<Work> getWorksReviewdByEvaluador(@PathParam("dni") String msg, @QueryParam("start_date") String start, @QueryParam("end_date") String end) {
 		long dni = Integer.valueOf(msg);
 		Date startDate = new Date(start);
-		System.out.println(start);
 		Date endDate = new Date(end);
 		return CacicService.getWorksByEvaluadorRangeDate(dni, startDate, endDate);
 	}

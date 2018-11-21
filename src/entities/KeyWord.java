@@ -98,4 +98,15 @@ public class KeyWord {
 	public String toString () {
 		return this.word;
 	}
+	
+	@Override
+	public boolean equals(Object k1) {
+		if(this == k1)
+			return true;
+		if (k1 instanceof KeyWord) {
+			KeyWord k = (KeyWord)k1;
+			return word.equals(k.getWord());
+		}
+		return false;
+	}
 }

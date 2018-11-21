@@ -3,8 +3,6 @@ package test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,8 +28,8 @@ public class WorkRESTTest {
 	public void UserTest() throws ClientProtocolException, IOException {
 		createWork();
 		listWorks();
-		updateWork();
-		deleteWork();
+//		updateWork();
+//		deleteWork();
 	}
 
 	private String getResult(HttpResponse response) throws IOException {
@@ -57,8 +55,9 @@ public class WorkRESTTest {
 		ObjectNode jsonObject = mapper.createObjectNode();
 		jsonObject.put("name", "Mas alla de la gran Network - Seg parte");
 		jsonObject.put("created", "2018-11-04");
-		jsonObject.put("category", "articulo");
-		jsonObject.put("keyWords", "[{id:5}]");
+		jsonObject.put("category_id", 11);
+		jsonObject.putArray("keyWords").add(1);
+		jsonObject.putArray("keyWords").add(2);
 		String jsonString = jsonObject.toString();
 	
 		HttpPost post = new HttpPost(url);
@@ -74,7 +73,7 @@ public class WorkRESTTest {
 	
 	public void listWorks() throws ClientProtocolException, IOException {
 
-		String url = BASE_URL + "/works";
+		String url = BASE_URL + "/work";
 
 		HttpGet request = new HttpGet(url);
 		HttpResponse response = client.execute(request);

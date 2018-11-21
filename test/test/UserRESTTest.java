@@ -28,10 +28,11 @@ public class UserRESTTest {
 
 	@Test
 	public void UserTest() throws ClientProtocolException, IOException {
-		createUser();
-		listUsers();
-		updateUser();
+//		createUser();
+//		listUsers();
+//		updateUser();
 //		deleteUser();
+		assignWorkRevToUser();
 	}
 
 	private String getResult(HttpResponse response) throws IOException {
@@ -139,6 +140,26 @@ public class UserRESTTest {
 
 		String resultContent = getResult(response);
 
+		System.out.println("Response Content : " + resultContent);
+
+	}
+	
+	public void assignWorkRevToUser() throws ClientProtocolException, IOException {
+
+		String url = BASE_URL + "/user/assingWorkRev/14";
+
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode jsonObject = mapper.createObjectNode();
+		jsonObject.put("work_id", 32);
+		String jsonString = jsonObject.toString();
+	
+		HttpPost post = new HttpPost(url);
+		post.setEntity(new StringEntity(jsonString, ContentType.APPLICATION_JSON));
+		HttpResponse response = client.execute(post);
+
+		System.out.println("\nPOST "+url);
+		System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
+		String resultContent = getResult(response);
 		System.out.println("Response Content : " + resultContent);
 
 	}
