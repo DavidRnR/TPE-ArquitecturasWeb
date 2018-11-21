@@ -218,7 +218,7 @@ public class ServiceTest {
 
 		// User 1 evalua article9
 //		user1.addWorkRev(work9);
-//		UserDAO.getInstance().update(user1.getId(), user1);
+		UserDAO.getInstance().update(user1.getId(), user1);
 		
 		UserDAO.getInstance().update(user2.getId(), user2);
 		UserDAO.getInstance().update(user3.getId(), user3);

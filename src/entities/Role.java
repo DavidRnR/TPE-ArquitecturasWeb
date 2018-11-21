@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NamedQuery(name = Role.DELETE_TABLE, query="DELETE FROM Role r") 
 
 @Entity
-@Table(name="Role")
+@Table(name="role")
 public class Role {
 
 	public static final String FIND_ALL = "Role.findAll";

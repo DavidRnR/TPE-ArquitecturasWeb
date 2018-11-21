@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @NamedQuery(name = Category.DELETE_TABLE, query="DELETE FROM Category c") 
 
 @Entity
-@Table(name="Category")
+@Table(name="category")
 public abstract class Category {
 
 	public static final String FIND_ALL = "Category.findAll";

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NamedQuery(name = KeyWord.DELETE_TABLE, query="DELETE FROM KeyWord k") 
 
 @Entity
-@Table(name="KeyWord")
+@Table(name="keyword")
 public class KeyWord {
 
 	public static final String FIND_ALL = "KeyWord.findAll";
@@ -33,9 +34,11 @@ public class KeyWord {
 	
 	@JsonIgnore
 	@ManyToMany
+	@JoinTable(name = "keyword_user")
 	private List<User> users;
 	@JsonIgnore
 	@ManyToMany
+	@JoinTable(name = "keyword_work")
 	private List<Work> articles;
 	
 	public KeyWord() {}

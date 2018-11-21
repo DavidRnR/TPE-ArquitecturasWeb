@@ -26,7 +26,7 @@ import org.hibernate.annotations.NotFoundAction;
 @NamedQuery(name = Work.DELETE_TABLE, query="DELETE FROM Work w") 
 
 @Entity
-@Table(name="Work")
+@Table(name="work")
 public class Work {
 
 	public static final String FIND_ALL = "Work.findAll";

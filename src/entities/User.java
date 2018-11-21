@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NamedQuery(name = User.DELETE_TABLE, query="DELETE FROM User u") 
 
 @Entity
-@Table(name="User")
+@Table(name="user")
 public class User {
 
 	public static final String FIND_ALL = "User.findAll";
@@ -49,10 +49,13 @@ public class User {
 	private boolean expert;
 	
 	@ManyToMany 
+	@JoinTable(name = "user_role")
 	private List<Role> roles;
 	@ManyToMany
+	@JoinTable(name = "user_keyword")
 	private List<KeyWord> keyWords;
 	@ManyToMany
+	@JoinTable(name = "user_work")
 	private List<Work> works;
 	@ManyToMany
 	@JoinTable(name = "user_rev_work")
