@@ -28,8 +28,6 @@ public class WorkRESTTest {
 	public void UserTest() throws ClientProtocolException, IOException {
 		createWork();
 		listWorks();
-//		updateWork();
-//		deleteWork();
 	}
 
 	private String getResult(HttpResponse response) throws IOException {

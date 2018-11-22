@@ -2,10 +2,7 @@ package services;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-
 import entities.Category;
-import entities.User;
-
 import java.util.List;
 
 public class CategoryDAO implements DAO<Category, Integer> {

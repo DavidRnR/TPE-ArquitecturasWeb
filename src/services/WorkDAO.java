@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-
-import entities.User;
 import entities.Work;
 
 public class WorkDAO implements DAO<Work,Integer> {

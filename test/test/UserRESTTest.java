@@ -3,9 +3,6 @@ package test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -28,11 +25,11 @@ public class UserRESTTest {
 
 	@Test
 	public void UserTest() throws ClientProtocolException, IOException {
-//		createUser();
-//		listUsers();
-//		updateUser();
-//		deleteUser();
+		createUser();
+		listUsers();
+		updateUser();
 		assignWorkRevToUser();
+		deleteUser();
 	}
 
 	private String getResult(HttpResponse response) throws IOException {
@@ -112,7 +109,7 @@ public class UserRESTTest {
 		jsonObject.put("last_name", "JUnit");
 		String jsonString = jsonObject.toString();
 
-		String url = BASE_URL + "/user/1";
+		String url = BASE_URL + "/user/15";
 		HttpPut request = new HttpPut(url);
 		request.setEntity(new StringEntity(jsonString, ContentType.APPLICATION_JSON));
 		HttpResponse response = client.execute(request);
@@ -129,7 +126,7 @@ public class UserRESTTest {
 	
 	public void deleteUser() throws ClientProtocolException, IOException {
 
-		String url = BASE_URL + "/user/1";
+		String url = BASE_URL + "/user/15";
 		
 		HttpDelete request = new HttpDelete(url);
 		HttpResponse response = client.execute(request);

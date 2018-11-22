@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-
-import entities.Work;
 import entities.KeyWord;
 
 public class KeyWordDAO implements DAO<KeyWord,Integer> {
