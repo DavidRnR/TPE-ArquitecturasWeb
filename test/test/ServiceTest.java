@@ -1,15 +1,8 @@
 package test;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.EntityManager;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import entities.Work;
@@ -22,17 +15,15 @@ import entities.Role;
 import entities.User;
 
 import services.WorkDAO;
-import services.CacicService;
 import services.CategoryDAO;
-import services.EMF;
 import services.KeyWordDAO;
 import services.RoleDAO;
 import services.UserDAO;
 
 public class ServiceTest {
 
-	@BeforeClass
-	public static void setDataTest() {
+	@Test
+	public void setDataTest() {
 		Role roleAutor = new Role("autor");
 		Role roleEvaluador = new Role("evaluador");
 
@@ -228,112 +219,5 @@ public class ServiceTest {
 		UserDAO.getInstance().update(user9.getId(), user9);
 		UserDAO.getInstance().update(user10.getId(), user10);
 	} 
-
-	@AfterClass
-	public static void closeEntityManager() {
-//		EntityManager em = EMF.createEntityManager();
-//		em.getTransaction( ).begin( );	
-//		em.createNamedQuery(User.DELETE_TABLE).executeUpdate();
-//		em.createNamedQuery(Work.DELETE_TABLE).executeUpdate();
-//		em.createNamedQuery(Category.DELETE_TABLE).executeUpdate();
-//		em.createNamedQuery(KeyWord.DELETE_TABLE).executeUpdate();
-//		em.createNamedQuery(Role.DELETE_TABLE).executeUpdate();
-//		em.getTransaction().commit();
-//
-//		em.close();
-	}
-
-	/**
-	 * Dado el nombre de un trabajo, devolver todos los posibles Evaluadores
-	 */
-	@Test
-	public void findEvaluadores() {
-		List<User> evaluadores = CacicService.findEvaluadores("Javascript para principiantes");
-		assertTrue("No encuentra evaluadores", !evaluadores.isEmpty() && evaluadores.get(0).getDni() == 6354852);
-	}
-
-	/**
-	 * Dado un usuario devolver toda su informacion
-	 */
-	@Test
-	public void getUserData() {
-		String userData = CacicService.getUserData(31156181);
-		assertTrue("Usuario no encontrado", userData != null);
-	}
-
-	/**
-	 * Dado un trabajo devolver toda su informacion
-	 */
-	@Test
-	public void getWorkData() {
-		String workData = CacicService.getWorkData("Javascript para principiantes");
-		assertTrue("Trabajo no encontrado", workData != null);
-	}
-
-	/**
-	 * Dado un evaluador, retornar todos sus trabajos asignados.
-	 */
-	@Test
-	public void getWorksByEvaluador() {
-		List<Work> works = CacicService.getWorksByEvaluador(31156181);
-		assertTrue("El usuario no tiene Trabajos", !works.isEmpty() && works.get(0).getName() == "Como armar una Red");
-	}
-
-	/**
-	 * Dado un Revisor/Evaluador y un rango de fechas, retornar todas sus revisiones(Work con reviewed != null)
-	 */
-	@Test
-	public void getWorksByEvaluadorRangeDate() {
-
-		// Obtengo un usuario y un trabajo
-		User userTest = UserDAO.getInstance().findByDni(31156181);
-		Work work = WorkDAO.getInstance().findByName("Por que Micro Servicios?");
-
-		// Le agrego un Trabajo al Evaluador/Usuario para revisar
-		userTest.addWorkRev(work);
-
-		// Seteo el Trabajo como revisado el 23 de Junio del 2018
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, 2018);
-		cal.set(Calendar.MONTH, Calendar.JUNE);
-		cal.set(Calendar.DAY_OF_MONTH, 23);
-		Date reviewed = cal.getTime();
-		userTest.setWorkAsReviewed(work, reviewed);
-
-		WorkDAO.getInstance().update(work.getId(), work);
-		UserDAO.getInstance().update(userTest.getId(), userTest);	
-
-		cal.set(Calendar.YEAR, 2010);
-		cal.set(Calendar.MONTH, Calendar.JANUARY);
-		cal.set(Calendar.DAY_OF_MONTH, 01);
-		Date start = cal.getTime();
-		cal.set(Calendar.YEAR, 2018);
-		cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
-		cal.set(Calendar.DAY_OF_MONTH, 30);
-		Date end = cal.getTime();
-
-		List<Work> works = CacicService.getWorksByEvaluadorRangeDate(userTest.getDni(), start, end);
-		assertTrue("El usuario no tiene Trabajos en ese rango de fechas", !works.isEmpty() && works.get(0).getName() == "Por que Micro Servicios?");
-	}
-
-	/**
-	 * Dado un autor, retornar todos sus trabajos.
-	 */
-	@Test
-	public void getWorksByAuthor() {
-		List<Work> works = CacicService.getWorksByAuthor(31156181);
-		assertTrue("El usuario/autor no tiene Trabajos", !works.isEmpty());
-	}
-
-	/**
-	 * Dado un usuario, retornar todos sus trabajos filtrados por una palabra clave.
-	 */
-	@Test
-	public void getWorksByUserAndCategory() {
-
-		List<Work> works = CacicService.getWorksByUserAndCategory(31156181, "Javascript");
-
-		assertTrue("El usuario/autor no tiene Trabajos", !works.isEmpty() && works.get(0).getName() == "Javascript para principiantes");
-	}
 
 }

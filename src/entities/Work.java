@@ -4,19 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NamedQuery;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 @NamedQuery(name = Work.FIND_ALL, query="SELECT w FROM Work w")
 @NamedQuery(name = Work.FIND_ALL_REVIEWED, query="SELECT w FROM Work w WHERE w.reviewed != null")
@@ -47,6 +44,9 @@ public class Work {
 	private Category category;
 	
 	@ManyToMany
+	@JoinTable(name = "work_keyword",
+	joinColumns = @JoinColumn(name = "work_id"), 
+	inverseJoinColumns = @JoinColumn(name = "keyword_id"))
 	private List<KeyWord> keyWords;
 		
 	public Work() {}

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -45,18 +46,24 @@ public class User {
 	private String last_name;
 	private String email;
 	private boolean expert;
-	
+
 	@ManyToMany 
 	@JoinTable(name = "user_role")
 	private List<Role> roles;
 	@ManyToMany
-	@JoinTable(name = "user_keyword")
+	@JoinTable(name = "user_keyword",
+	joinColumns = @JoinColumn(name = "user_id"), 
+	inverseJoinColumns = @JoinColumn(name = "keyword_id"))
 	private List<KeyWord> keyWords;
 	@ManyToMany
-	@JoinTable(name = "user_work")
+	@JoinTable(name = "user_work",
+	joinColumns = @JoinColumn(name = "user_id"), 
+	inverseJoinColumns = @JoinColumn(name = "work_id"))
 	private List<Work> works;
 	@ManyToMany
-	@JoinTable(name = "user_rev_work")
+	@JoinTable(name = "user_rev_work",
+	joinColumns = @JoinColumn(name = "user_id"), 
+	inverseJoinColumns = @JoinColumn(name = "workrev_id"))
 	private List<Work> worksRev;
 
 	public User() {}
@@ -119,7 +126,7 @@ public class User {
 		}
 		return false;
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}
@@ -127,11 +134,11 @@ public class User {
 	public long getDni() {
 		return this.dni;
 	}
-	
+
 	public void setDni(long dni) {
 		this.dni = dni;
 	}
-	
+
 	public String getFirst_name() {
 		return first_name;
 	}
@@ -187,7 +194,7 @@ public class User {
 	public List<Work> getWorksRev() {
 		return this.worksRev;
 	}
-	
+
 	@Override
 	public String toString () {
 		return this.getFirst_name() + " " + this.getLast_name() + "\n" + 
@@ -199,7 +206,7 @@ public class User {
 				"Experto: " + this.expert;
 
 	}
-	
+
 	@JsonIgnore
 	public boolean canReviewArticle (Work work) {
 		List<Work> worksInReview = getWorksInReview();
@@ -235,7 +242,7 @@ public class User {
 		}
 		return false;
 	}
-	
+
 	@JsonIgnore
 	public boolean isAuthorByWork (Work work) {
 
@@ -244,7 +251,7 @@ public class User {
 		}
 		return false;
 	}
-	
+
 	@JsonIgnore
 	public List<Work> getWorksInReview () {
 		List<Work> worksInReview = new ArrayList<Work>();
