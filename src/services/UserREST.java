@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import entities.User;
 import entities.Work;
-import services.RoleREST.notFound;
 
 
 @Path("/user")
