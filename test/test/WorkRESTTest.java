@@ -28,6 +28,9 @@ public class WorkRESTTest {
 	public void UserTest() throws ClientProtocolException, IOException {
 		createWork();
 		listWorks();
+		listWorksbyAutor();
+		setWorkAsReviewed();
+		listWorksReviewedbyEvaluador();
 	}
 
 	private String getResult(HttpResponse response) throws IOException {
@@ -72,6 +75,58 @@ public class WorkRESTTest {
 	public void listWorks() throws ClientProtocolException, IOException {
 
 		String url = BASE_URL + "/work";
+
+		HttpGet request = new HttpGet(url);
+		HttpResponse response = client.execute(request);
+		
+		System.out.println("\nGET "+url);
+
+		System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
+
+		String resultContent = getResult(response);
+
+		System.out.println("Response Content : " + resultContent);
+
+	}
+	
+	public void listWorksbyAutor() throws ClientProtocolException, IOException {
+
+		String url = BASE_URL + "/work/getWorksbyAutor/14";
+
+		HttpGet request = new HttpGet(url);
+		HttpResponse response = client.execute(request);
+		
+		System.out.println("\nGET "+url);
+
+		System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
+
+		String resultContent = getResult(response);
+
+		System.out.println("Response Content : " + resultContent);
+
+	}
+	
+	public void setWorkAsReviewed() throws ClientProtocolException, IOException {
+
+		String url = BASE_URL + "/work/setWorkAsReviewed/32";
+	
+		HttpPut request = new HttpPut(url);
+		request.setEntity(new StringEntity("", ContentType.APPLICATION_JSON));
+		HttpResponse response = client.execute(request);
+
+		System.out.println("\nPUT "+url);
+		
+		System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
+
+		String resultContent = getResult(response);
+
+		System.out.println("Response Content : " + resultContent);
+		
+	}
+	
+	public void listWorksReviewedbyEvaluador() throws ClientProtocolException, IOException {
+
+		String url = BASE_URL + "/work/getWorksReviewedByEvaluador/14?start_date=2010-01-01&end_date=2018-11-01";
 
 		HttpGet request = new HttpGet(url);
 		HttpResponse response = client.execute(request);

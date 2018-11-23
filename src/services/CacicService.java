@@ -69,11 +69,11 @@ public class CacicService {
 
 	/**
 	 * Obtener los Articulos que tiene un Author
-	 * @param dni
+	 * @param id
 	 * @return
 	 */
-	public static List<Work> getWorksByAuthor(long dni) {
-		User user = UserDAO.getInstance().findByDni(dni);
+	public static List<Work> getWorksByAuthor(int id) {
+		User user = UserDAO.getInstance().findById(id);
 
 		if(user != null && user.isAuthor()) {
 			return user.getWorks();
@@ -125,8 +125,8 @@ public class CacicService {
 	/**
 	 * Dado un Revisor/Evaluador y un rango de fechas, retornar todas sus revisiones(Work con reviewed != null)
 	 */
-	public static List<Work> getWorksByEvaluadorRangeDate (long dni, Date start, Date end) {
-		User user = UserDAO.getInstance().findByDni(dni);
+	public static List<Work> getWorksByEvaluadorRangeDate (int id, Date start, Date end) {
+		User user = UserDAO.getInstance().findById(id);
 		List<Work> userWorks = user.getWorksRev();
 		List<Work> result = new ArrayList<Work>();
 

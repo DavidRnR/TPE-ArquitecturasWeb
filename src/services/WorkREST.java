@@ -88,7 +88,7 @@ public class WorkREST {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateUser(@PathParam("id") int id, Work work) {
-		Work result = WorkDAO.getInstance().update(id, work);
+		Work result = WorkDAO.getInstance().updateREST(id, work);
 		if(result!=null) return Response.status(201).entity(result).build();
 		throw new notFound(id);
 	}
@@ -104,21 +104,43 @@ public class WorkREST {
 	}
 	
 	@GET
-	@Path("/getWorksbyAutor/{dni}")
+	@Path("/getWorksbyAutor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Work> getWorksByAutor(@PathParam("dni") String msg) {
-		long dni = Integer.valueOf(msg);
-		return CacicService.getWorksByAuthor(dni);
+	public List<Work> getWorksByAutor(@PathParam("id") String msg) {
+		int id = Integer.valueOf(msg);
+		return CacicService.getWorksByAuthor(id);
 	}
 	
 	@GET
-	@Path("/getWorksReviewdByEvaluador/{dni}")
+	@Path("/getWorksReviewedByEvaluador/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Work> getWorksReviewdByEvaluador(@PathParam("dni") String msg, @QueryParam("start_date") String start, @QueryParam("end_date") String end) {
-		long dni = Integer.valueOf(msg);
-		Date startDate = new Date(start);
-		Date endDate = new Date(end);
-		return CacicService.getWorksByEvaluadorRangeDate(dni, startDate, endDate);
+	public List<Work> getWorksReviewdByEvaluador(@PathParam("id") String msg, @QueryParam("start_date") String start, @QueryParam("end_date") String end) {
+		int id = Integer.valueOf(msg);
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+		LocalDate localDate = LocalDate.parse(start, formatter);
+		Date startDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		
+		LocalDate localDateEnd = LocalDate.parse(end, formatter);
+		Date endDate = Date.from(localDateEnd.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+		return CacicService.getWorksByEvaluadorRangeDate(id, startDate, endDate);
+	}
+	
+	@PUT
+	@Path("/setWorkAsReviewed/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response setWorkAsReviewed(@PathParam("id") String msg) throws ParseException, JsonProcessingException, IOException {
+		int id = Integer.valueOf(msg);
+		Work work = WorkDAO.getInstance().findById(id);
+		work.setReviewed(new Date());
+		Work result = WorkDAO.getInstance().updateREST(id, work);
+		if(result==null) {
+			throw new ResourseNotCreated(work.getId());
+		}else {
+			return Response.status(201).entity(work).build();
+		}
 	}
 	
 	public class notFound extends WebApplicationException {

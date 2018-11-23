@@ -44,6 +44,20 @@ public class WorkDAO implements DAO<Work,Integer> {
 		}
 		return null;
 	}
+	
+	public Work updateREST (Integer id, Work work) {
+		EntityManager entityManager = EMF.createEntityManager();
+		Work wo = entityManager.find(Work.class, id);
+		
+		if(wo != null) {
+			entityManager.getTransaction().begin();
+			entityManager.merge(work);
+			entityManager.getTransaction().commit();
+			entityManager.close();
+			return work;
+		}
+		return null;
+	}
 
 	@Override
 	public Work findById(Integer id) {
