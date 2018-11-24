@@ -15,11 +15,11 @@
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://localhost:3306/cacic2018?createDatabaseIfNotExist=true" />
-			<property name="javax.persistence.jdbc.user" value="cacic" />
-			<property name="javax.persistence.jdbc.password" value="cacic" />
+				value="jdbc:mysql://us-cdbr-iron-east-01.cleardb.net/heroku_fbdcba9c6a21fb9?reconnect=true" />
+			<property name="javax.persistence.jdbc.user" value="bc9c0835b4122c" />
+			<property name="javax.persistence.jdbc.password" value="28cfccd6" />
 
-			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.hbm2ddl.auto" value="validate" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.enable_lazy_load_no_trans"
 				value="true" />
